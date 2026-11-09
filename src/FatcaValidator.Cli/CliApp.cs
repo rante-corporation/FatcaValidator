@@ -46,8 +46,8 @@ internal sealed class CliApp
         Option<FileInfo> schemaOption = new Option<FileInfo>("--schema", "-s")
         {
             Description = "A main .xsd file to validate against instead of the bundled schemas; the schemas it imports "
-                + "are read from its folder. Without it, the bundled IRS FATCA v2.0.1 or OECD CRS v3.0 schema is "
-                + "chosen from the file's root element.",
+                + "are read from its folder. Without it, the bundled schema (IRS FATCA v2.0.1, OECD CRS v2.0 or "
+                + "OECD CRS v3.0) is chosen from the file's root element.",
             HelpName = "path",
         }.AcceptExistingOnly();
 

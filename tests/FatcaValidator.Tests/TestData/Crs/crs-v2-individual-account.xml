@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written test document for the CRS XML Schema v2.0; not an official OECD sample.
+     The institution, person, numbers and amounts are fictitious. -->
+<crs:CRS_OECD version="2.0"
+    xmlns:crs="urn:oecd:ties:crs:v2"
+    xmlns:cfc="urn:oecd:ties:commontypesfatcacrs:v2"
+    xmlns:stf="urn:oecd:ties:crsstf:v5">
+  <crs:MessageSpec>
+    <crs:SendingCompanyIN>EXAMPLE-FI-0001</crs:SendingCompanyIN>
+    <crs:TransmittingCountry>NL</crs:TransmittingCountry>
+    <crs:ReceivingCountry>FR</crs:ReceivingCountry>
+    <crs:MessageType>CRS</crs:MessageType>
+    <crs:MessageRefId>NL2025FR-EXAMPLE-0001</crs:MessageRefId>
+    <crs:MessageTypeIndic>CRS701</crs:MessageTypeIndic>
+    <crs:ReportingPeriod>2025-12-31</crs:ReportingPeriod>
+    <crs:Timestamp>2026-03-01T09:30:00</crs:Timestamp>
+  </crs:MessageSpec>
+  <crs:CrsBody>
+    <crs:ReportingFI>
+      <crs:ResCountryCode>NL</crs:ResCountryCode>
+      <crs:IN issuedBy="NL">EXAMPLE-FI-0001</crs:IN>
+      <crs:Name>Example Bank N.V.</crs:Name>
+      <crs:Address>
+        <cfc:CountryCode>NL</cfc:CountryCode>
+        <cfc:AddressFix>
+          <cfc:Street>Voorbeeldstraat</cfc:Street>
+          <cfc:BuildingIdentifier>1</cfc:BuildingIdentifier>
+          <cfc:PostCode>1000 AA</cfc:PostCode>
+          <cfc:City>Amsterdam</cfc:City>
+        </cfc:AddressFix>
+      </crs:Address>
+      <crs:DocSpec>
+        <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+        <stf:DocRefId>NL2025-EXAMPLE-FI-0001</stf:DocRefId>
+      </crs:DocSpec>
+    </crs:ReportingFI>
+    <crs:ReportingGroup>
+      <crs:AccountReport>
+        <crs:DocSpec>
+          <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+          <stf:DocRefId>NL2025-EXAMPLE-ACCOUNT-0001</stf:DocRefId>
+        </crs:DocSpec>
+        <crs:AccountNumber>NL00EXMP0123456789</crs:AccountNumber>
+        <crs:AccountHolder>
+          <crs:Individual>
+            <crs:ResCountryCode>FR</crs:ResCountryCode>
+            <crs:TIN issuedBy="FR">0000000000000</crs:TIN>
+            <crs:Name>
+              <crs:FirstName>Jeanne</crs:FirstName>
+              <crs:LastName>Exemple</crs:LastName>
+            </crs:Name>
+            <crs:Address>
+              <cfc:CountryCode>FR</cfc:CountryCode>
+              <cfc:AddressFree>1 rue de l'Exemple, 75001 Paris</cfc:AddressFree>
+            </crs:Address>
+            <crs:BirthInfo>
+              <crs:BirthDate>1980-01-31</crs:BirthDate>
+            </crs:BirthInfo>
+          </crs:Individual>
+        </crs:AccountHolder>
+        <crs:AccountBalance currCode="EUR">12345.67</crs:AccountBalance>
+      </crs:AccountReport>
+    </crs:ReportingGroup>
+  </crs:CrsBody>
+</crs:CRS_OECD>

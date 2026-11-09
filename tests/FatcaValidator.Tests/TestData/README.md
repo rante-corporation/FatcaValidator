@@ -15,7 +15,8 @@ of them to produce invalid reports.
 | `2014_2IW3WK.00000.LE.152.xml` | in https://www.irs.gov/pub/fatca/optional_elements_v2.0.zip | `4c6c5b5eb07ea9e006e762d17ac762e7c61919941aa97e89e70626a92fae0055` |
 | `2016_2IW3WK.00000.LE.152.xml` | in https://www.irs.gov/pub/fatca/optional_elements_v2.0.zip | `7fab59587d890cb1edf411f670edc2a0ac994c40a51099918b0356930074947a` |
 
-## `Crs/`: hand-written CRS report
+## `Crs/`: hand-written CRS reports
 
-`crs-v3-individual-account.xml` is a CRS XML v3.0 report written for these tests from the schema; it is
-not an official OECD sample. The institution, person, numbers and amounts in it are fictitious.
+`crs-v2-individual-account.xml` (CRS XML v2.0) and `crs-v3-individual-account.xml` (CRS XML v3.0) were
+written for these tests from the schemas; they are not official OECD samples. The institution, person,
+numbers and amounts in them are fictitious.

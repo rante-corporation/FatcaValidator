@@ -7,11 +7,13 @@ network. Every error is reported with its line and position in the file.
 | Reports | Bundled schema | Root element |
 |---|---|---|
 | FATCA (Form 8966, sent through IRS IDES) | IRS FATCA XML Schema v2.0.1 | `FATCA_OECD` in `urn:oecd:ties:fatca:v2` |
+| CRS (the 2019 format) | OECD CRS XML Schema v2.0 | `CRS_OECD` in `urn:oecd:ties:crs:v2` |
 | CRS (amended CRS, adopted by tax administrations from 1 January 2027) | OECD CRS XML Schema v3.0 | `CRS_OECD` in `urn:oecd:ties:crs:v3` |
 
-The schema is chosen from the file's root element. FATCA v2.0 reports are checked against v2.0.1, which
-accepts them: the IRS's own v2.0 sample reports pass. To use any other schema, such as CRS v2.0, pass its
-main `.xsd` file with `--schema`.
+The schema is chosen from the file's root element, so CRS v2.0 and v3.0 reports are each checked against
+their own version. FATCA v2.0 reports are checked against v2.0.1, which accepts them: the IRS's own v2.0
+sample reports pass. To use any other schema, such as a tax administration's own variant, pass its main
+`.xsd` file with `--schema`.
 
 ## Usage
 
@@ -101,7 +103,7 @@ $env:PATH = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer;$env:PAT
 using FatcaValidator.Core;
 
 var engine = new ValidatorEngine();
-ValidationResult result = engine.Validate("report.xml");  // or engine.Validate("report.xml", "CrsXML_v2.0.xsd")
+ValidationResult result = engine.Validate("report.xml");  // or engine.Validate("report.xml", "path/to/schema.xsd")
 
 if (!result.IsValid)
 {
@@ -129,7 +131,7 @@ tests/
   FatcaValidator.Tests/     xUnit tests, with the IRS sample reports as test data
 ```
 
-To bundle another schema package, for example CRS v2.0, follow
+To bundle another schema package, such as a future FATCA or CRS version, follow
 [Adding a package](src/FatcaValidator.Core/Schemas/README.md#adding-a-package).
 
 ## License

@@ -51,6 +51,16 @@ public static class BundledSchemas
         new XmlQualifiedName("FATCA_OECD", "urn:oecd:ties:fatca:v2"));
 
     /// <summary>
+    /// The OECD CRS XML Schema v2.0 (2019), the CRS format in use before the amended CRS, root element
+    /// <c>CRS_OECD</c> in <c>urn:oecd:ties:crs:v2</c>.
+    /// </summary>
+    public static SchemaPackage CrsV2_0 { get; } = new(
+        "CRS XML Schema v2.0 (OECD)",
+        "Crs/v2.0",
+        "CrsXML_v2.0.xsd",
+        new XmlQualifiedName("CRS_OECD", "urn:oecd:ties:crs:v2"));
+
+    /// <summary>
     /// The OECD CRS XML Schema v3.0 for the amended Common Reporting Standard, root element
     /// <c>CRS_OECD</c> in <c>urn:oecd:ties:crs:v3</c>.
     /// </summary>
@@ -61,7 +71,7 @@ public static class BundledSchemas
         new XmlQualifiedName("CRS_OECD", "urn:oecd:ties:crs:v3"));
 
     /// <summary>All bundled packages.</summary>
-    public static IReadOnlyList<SchemaPackage> All { get; } = [FatcaV2_0_1, CrsV3_0];
+    public static IReadOnlyList<SchemaPackage> All { get; } = [FatcaV2_0_1, CrsV2_0, CrsV3_0];
 
     /// <summary>Returns the package for documents with this root element, or <see langword="null"/> when none is bundled.</summary>
     public static SchemaPackage? FindByRootElement(XmlQualifiedName rootElement)

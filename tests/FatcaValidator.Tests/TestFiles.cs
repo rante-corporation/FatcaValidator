@@ -6,6 +6,9 @@ internal static class TestFiles
     /// <summary>A hand-written CRS v3.0 report (not an official OECD sample).</summary>
     public const string CrsSample = "crs-v3-individual-account.xml";
 
+    /// <summary>A hand-written CRS v2.0 report (not an official OECD sample).</summary>
+    public const string CrsV2Sample = "crs-v2-individual-account.xml";
+
     /// <summary>An IRS sample report from irs.gov/pub/fatca.</summary>
     public static string Irs(string name) => Path.Combine(AppContext.BaseDirectory, "TestData", "Irs", name);
 

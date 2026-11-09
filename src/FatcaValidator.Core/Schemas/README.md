@@ -21,6 +21,26 @@ tables below.
 | `oecdtypes_v4.2.xsd` | `urn:oecd:ties:stf:v4` | 3,702 | `9a93ec6136c2904dc331003b91944d2d711440079b7867975c02aa45d4a5225d` |
 | `stffatcatypes_v2.0.xsd` | `urn:oecd:ties:stffatcatypes:v2` | 24,675 | `3c2cebf3f19414d6e5998d4e09e59db4627f2d4ac074ec068557a76d5010521c` |
 
+## CRS XML Schema v2.0 (OECD): `Crs/v2.0`
+
+- **Source:** OECD, [Common Reporting Standard: schema and user guide](https://www.oecd.org/tax/automatic-exchange/common-reporting-standard/schema-and-user-guide/),
+  "XML Schema - Version 2.0 (ZIP)", published with the CRS XML Schema User Guide for Tax Administrations (June 2019).
+- **Package:** `crs-schema-v2.0.zip`, 17,549 bytes,
+  SHA-256 `d770d7c426759691c57c89c41d808790f0f3b841e9cb61d514334c55ccb0a524`, downloaded from oecd.org on 2026-11-09.
+- **Terms:** © OECD. The OECD's [open-by-default policy](https://www.oecd.org/en/about/oecd-open-by-default-policy.html)
+  allows reuse of its content with attribution. Attribution: OECD, *Common Reporting Standard XML Schema*, version 2.0.
+
+| File | Target namespace | Bytes | SHA-256 |
+|---|---|---:|---|
+| `CrsXML_v2.0.xsd` (main) | `urn:oecd:ties:crs:v2` | 24,398 | `727a446aaad390de527b956ada05a1198943a5e2dc02c022c890aba3bd321bd1` |
+| `CommonTypesFatcaCrs_v2.0.xsd` | `urn:oecd:ties:commontypesfatcacrs:v2` | 7,425 | `a56b1b123d1bf560e3715def76a73a6f5e93329b6094510487380be95b4b6eff` |
+| `FatcaTypes_v1.2.xsd` | `urn:oecd:ties:fatca:v1` | 2,797 | `f842eca4f038cf3ee574f0820197c1448de69bc8200f926bb9d5c809417ebb97` |
+| `isocrstypes_v1.1.xsd` | `urn:oecd:ties:isocrstypes:v1` | 76,045 | `aeed6deaf56cbf93415e8e17387f5b400add48ad573c462fb546cdd64f721281` |
+| `oecdcrstypes_v5.0.xsd` | `urn:oecd:ties:crsstf:v5` | 9,108 | `80d2eb328f6a68b8da15a27f06366cea088b321115d57ceb56dcc2106096bf4f` |
+
+`CommonTypesFatcaCrs_v2.0.xsd`, `FatcaTypes_v1.2.xsd` and `oecdcrstypes_v5.0.xsd` have the same names in the v2.0 and
+v3.0 packages but different contents, so each package keeps its own folder and is compiled on its own.
+
 ## CRS XML Schema v3.0 (OECD): `Crs/v3.0`
 
 - **Source:** OECD, [Amended Common Reporting Standard XML Schema](https://doi.org/10.1787/dd7ee57a-en)

@@ -12,6 +12,7 @@
   -->
   <ItemGroup>
     <EmbeddedResource Include="Schemas\Fatca\v2.0.1\*.xsd" LogicalName="Schemas/Fatca/v2.0.1/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Schemas\Crs\v2.0\*.xsd" LogicalName="Schemas/Crs/v2.0/%(Filename)%(Extension)" />
     <EmbeddedResource Include="Schemas\Crs\v3.0\*.xsd" LogicalName="Schemas/Crs/v3.0/%(Filename)%(Extension)" />
   </ItemGroup>
 

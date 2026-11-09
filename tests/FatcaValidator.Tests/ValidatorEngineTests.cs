@@ -25,14 +25,32 @@ public sealed class ValidatorEngineTests : IDisposable
         Assert.Equal(0, result.WarningCount);
     }
 
-    [Fact]
-    public void CrsV3Report_IsValidAgainstTheBundledCrsSchema()
+    [Theory]
+    [InlineData(TestFiles.CrsV2Sample, "Crs/v2.0")]
+    [InlineData(TestFiles.CrsSample, "Crs/v3.0")]
+    public void CrsReports_AreValidAgainstTheMatchingBundledSchema(string sample, string packageFolder)
     {
-        ValidationResult result = _engine.Validate(TestFiles.Crs(TestFiles.CrsSample));
+        ValidationResult result = _engine.Validate(TestFiles.Crs(sample));
 
         Assert.True(result.IsValid, Describe(result));
-        Assert.Equal(BundledSchemas.CrsV3_0.Name, result.Schema);
+        Assert.Equal(BundledSchemas.All.Single(package => package.Folder == packageFolder).Name, result.Schema);
         Assert.Equal(0, result.WarningCount);
+    }
+
+    [Fact]
+    public void CrsV2Report_WithAnElementAddedInV3_IsInvalid()
+    {
+        string text = File.ReadAllText(TestFiles.Crs(TestFiles.CrsV2Sample));
+        const string Holder = "<crs:AccountHolder>";
+        Assert.Contains(Holder, text, StringComparison.Ordinal);
+        string path = _temp.Write("v2-with-selfcert.xml",
+            text.Replace(Holder, Holder + "<crs:SelfCert>CRS901</crs:SelfCert>", StringComparison.Ordinal));
+
+        ValidationResult result = _engine.Validate(path);
+
+        Assert.Equal(ValidationStatus.Invalid, result.Status);
+        Assert.Equal(BundledSchemas.CrsV2_0.Name, result.Schema);
+        Assert.Contains(result.Errors, error => error.Message.Contains("SelfCert", StringComparison.Ordinal));
     }
 
     [Fact]
@@ -150,7 +168,7 @@ public sealed class ValidatorEngineTests : IDisposable
 
     [Theory]
     [InlineData("""<Report xmlns="urn:example:other"/>""")]
-    [InlineData("""<crs:CRS_OECD xmlns:crs="urn:oecd:ties:crs:v2" version="2.0"/>""")]
+    [InlineData("""<crs:CRS_OECD xmlns:crs="urn:oecd:ties:crs:v1" version="1.0"/>""")]
     public void DocumentWithoutABundledSchema_IsNotValidated(string content)
     {
         ValidationResult result = _engine.Validate(_temp.Write("doc.xml", content));
