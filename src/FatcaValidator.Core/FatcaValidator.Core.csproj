@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>FATCA and CRS XML validation engine with the official IRS and OECD XML schemas embedded.</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <!--
+    The official schema packages, embedded under stable names (Schemas/<folder>/<file>) so the
+    library, and the native fatca-val binary, need no files next to them. See Schemas/README.md.
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="Schemas\Fatca\v2.0.1\*.xsd" LogicalName="Schemas/Fatca/v2.0.1/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="Schemas\Crs\v3.0\*.xsd" LogicalName="Schemas/Crs/v3.0/%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

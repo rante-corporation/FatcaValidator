@@ -1,0 +1,7 @@
+# Text files are stored with LF line endings.
+* text=auto eol=lf
+
+# The official IRS/OECD schema files and the IRS sample reports are kept byte-for-byte,
+# so their SHA-256 hashes keep matching the files the IRS and the OECD publish.
+src/FatcaValidator.Core/Schemas/**/*.xsd -text
+tests/FatcaValidator.Tests/TestData/Irs/** -text

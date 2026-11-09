@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Build and test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build --configuration Release
+      - name: Test
+        run: dotnet test --configuration Release --no-build
+
+  native-aot:
+    name: Native AOT publish (linux-x64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+      - name: Install the native toolchain
+        run: sudo apt-get update && sudo apt-get install -y clang zlib1g-dev
+      - name: Publish
+        run: dotnet publish src/FatcaValidator.Cli --configuration Release --runtime linux-x64
+      - name: Smoke test the native binary
+        run: |
+          bin=src/FatcaValidator.Cli/bin/Release/net10.0/linux-x64/publish/fatca-val
+          "$bin" --file tests/FatcaValidator.Tests/TestData/Irs/newnilfireport.xml
+          "$bin" --file tests/FatcaValidator.Tests/TestData/Crs/crs-v3-individual-account.xml

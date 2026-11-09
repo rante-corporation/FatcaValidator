@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ftc:FATCA_OECD xmlns:iso="urn:oecd:ties:isofatcatypes:v1" xmlns:ftc="urn:oecd:ties:fatca:v2"
+    xmlns:sfa="urn:oecd:ties:stffatcatypes:v2" xmlns:stf="urn:oecd:ties:stf:v4"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:oecd:ties:fatca:v2" version="2.0">
+    <ftc:MessageSpec>
+        <sfa:SendingCompanyIN>2IW3WK.00000.LE.152</sfa:SendingCompanyIN>
+        <sfa:TransmittingCountry>CL</sfa:TransmittingCountry>
+        <sfa:ReceivingCountry>US</sfa:ReceivingCountry>
+        <sfa:MessageType>FATCA</sfa:MessageType>
+        <sfa:Warning>Warning Text goes here</sfa:Warning>
+        <sfa:Contact>Contact Text goes here</sfa:Contact>
+        <sfa:MessageRefId>a1aa421f-38g0-4e01-8y53-25b465f6fe9a</sfa:MessageRefId>
+        <!--<sfa:CorrMessageRefId>Not used for FATCA11 submission</sfa:CorrMessageRefId>-->
+        <sfa:ReportingPeriod>2014-12-31Z</sfa:ReportingPeriod>
+        <sfa:Timestamp>2017-01-20T09:39:23Z</sfa:Timestamp>
+    </ftc:MessageSpec>
+    <ftc:FATCA>
+        <ftc:ReportingFI>
+            <sfa:ResCountryCode>CL</sfa:ResCountryCode>
+            <sfa:TIN issuedBy="US">2IW3WK.00000.LE.152</sfa:TIN>
+            <sfa:Name>Reporting FI Name</sfa:Name>
+            <sfa:Address>
+                <sfa:CountryCode>US</sfa:CountryCode>
+                <sfa:AddressFree>123 Street Name/City/State/Zip</sfa:AddressFree>
+                <!--
+                <sfa:AddressFix>
+                    <sfa:Street>Street Name</sfa:Street>
+                    <sfa:BuildingIdentifier>123</sfa:BuildingIdentifier>
+                    <sfa:SuiteIdentifier>Suite Information</sfa:SuiteIdentifier>
+                    <sfa:FloorIdentifier>Floor Information</sfa:FloorIdentifier>
+                    <sfa:DistrictName>District Name</sfa:DistrictName>
+                    <sfa:POB>Post Office Box Information</sfa:POB>
+                    <sfa:PostCode>Postal Code Information</sfa:PostCode>
+                    <sfa:City>City</sfa:City>
+                    <sfa:CountrySubentity>Country Sub Entity</sfa:CountrySubentity>
+                </sfa:AddressFix>
+                <sfa:AddressFree>123 Street Name/City/State/Zip</sfa:AddressFree>
+                -->
+            </sfa:Address>
+            <ftc:DocSpec>
+                <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                <ftc:DocRefId>2IW3WK.00000.LE.152.DR1-1</ftc:DocRefId>
+                <!--Not Used for FATCA11 submissions
+                <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                -->
+            </ftc:DocSpec>
+        </ftc:ReportingFI>
+        <ftc:ReportingGroup>
+            <!--
+            <ftc:Sponsor>
+                <sfa:ResCountryCode>CL</sfa:ResCountryCode>
+                <sfa:TIN issuedBy="US">2P2RBE.00000.SP.152</sfa:TIN>
+                <sfa:Name>Reporting FI Name</sfa:Name>
+                <sfa:Address>
+                    <sfa:CountryCode>CL</sfa:CountryCode>
+                    <!-
+                    <sfa:AddressFree>Address Information</sfa:AddressFree>
+                    ->
+                    <sfa:AddressFix>
+                        <sfa:City>City Name</sfa:City>
+                    </sfa:AddressFix>
+                    <sfa:AddressFree>234 Street Name/City/State/Zip</sfa:AddressFree>
+                </sfa:Address>
+                <ftc:DocSpec>
+                    <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                    <ftc:DocRefId>2IW3WK.00000.LE.152.DR1-2</ftc:DocRefId>
+                    <!-Not Used for FATCA11 submissions
+                    <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                    <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                    ->
+                </ftc:DocSpec>
+            </ftc:Sponsor>
+            -->
+            <ftc:Intermediary>
+                <sfa:ResCountryCode>CL</sfa:ResCountryCode>
+                <sfa:TIN issuedBy="US">123456789</sfa:TIN>
+                <sfa:Name>Name</sfa:Name>
+                <sfa:Address>
+                    <sfa:CountryCode>CL</sfa:CountryCode>
+                    <!--                    
+                    <sfa:AddressFree>Address Information</sfa:AddressFree>
+                    -->
+                    <sfa:AddressFix>
+                        <sfa:City>City</sfa:City>
+                    </sfa:AddressFix>
+                    <sfa:AddressFree>Additional Address Information</sfa:AddressFree>
+                </sfa:Address>
+                <ftc:DocSpec>
+                    <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                    <ftc:DocRefId>2IW3WK.00000.LE.152.DR1-3</ftc:DocRefId>
+                    <!--Not Used for FATCA11 submissions
+                    <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                    <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                    -->
+                </ftc:DocSpec>
+            </ftc:Intermediary>
+            <!--            
+            <ftc:NilReport>
+                <ftc:DocSpec>
+                    <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                    <ftc:DocRefId>DocRefId</ftc:DocRefId>
+                    <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                    <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                </ftc:DocSpec>
+                <ftc:NoAccountToReport>yes</ftc:NoAccountToReport>
+            </ftc:NilReport>
+            -->
+            <ftc:AccountReport>
+                <ftc:DocSpec>
+                    <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                    <ftc:DocRefId>2IW3WK.00000.LE.152.DR1-4</ftc:DocRefId>
+                    <!--Not Used for FATCA11 submissions
+                    <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                    <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                    -->
+                </ftc:DocSpec>
+                <ftc:AccountNumber>ABCD1234</ftc:AccountNumber>
+                <ftc:AccountHolder>
+                    <ftc:Individual>
+                        <sfa:Name>
+                            <sfa:FirstName>First Name</sfa:FirstName>
+                            <sfa:LastName>Last Name</sfa:LastName>
+                        </sfa:Name>
+                        <sfa:Address>
+                            <sfa:CountryCode>MN</sfa:CountryCode>
+                            <!--                            
+                            <sfa:AddressFree>Additional Address Information</sfa:AddressFree>
+                            -->
+                            <sfa:AddressFix>
+                                <sfa:City>City</sfa:City>
+                            </sfa:AddressFix>
+                        </sfa:Address>
+                    </ftc:Individual>
+                    <!--                    
+                    <ftc:Organisation>
+                        <sfa:Name>Org Name</sfa:Name>
+                        <sfa:Address>
+                            <sfa:CountryCode>CL</sfa:CountryCode>
+                            <sfa:AddressFix>
+                                <sfa:City>City</sfa:City>
+                            </sfa:AddressFix>
+                        </sfa:Address>
+                    </ftc:Organisation>
+                    <ftc:AcctHolderType>FATCA101</ftc:AcctHolderType>
+                    -->
+                </ftc:AccountHolder>
+                <ftc:SubstantialOwner>
+                    <!--                    
+                    <ftc:Individual>
+                        <sfa:Name>
+                            <sfa:FirstName>First Name</sfa:FirstName>
+                            <sfa:LastName>Last Name</sfa:LastName>
+                        </sfa:Name>
+                        <sfa:Address>
+                            <sfa:CountryCode>CL</sfa:CountryCode>
+                            <sfa:AddressFix>
+                                <sfa:City>City</sfa:City>
+                            </sfa:AddressFix>
+                        </sfa:Address>
+                    </ftc:Individual>
+                    -->
+                    <ftc:Organisation>
+                        <sfa:Name>Org Name</sfa:Name>
+                        <sfa:Address>
+                            <sfa:CountryCode>CL</sfa:CountryCode>
+                            <!--                            
+                            <sfa:AddressFree>Additional Address Information</sfa:AddressFree>
+                            -->
+                            <sfa:AddressFix>
+                                <sfa:City>City</sfa:City>
+                            </sfa:AddressFix>
+                        </sfa:Address>
+                    </ftc:Organisation>
+                </ftc:SubstantialOwner>
+                <ftc:AccountBalance currCode="WST">546975589.02</ftc:AccountBalance>
+                <ftc:Payment>
+                    <ftc:Type>FATCA501</ftc:Type>
+                    <ftc:PaymentAmnt currCode="DZD">142489506.16</ftc:PaymentAmnt>
+                </ftc:Payment>
+                <!--
+                <ftc:CARRef>
+                    <ftc:PoolReportReportingFIGIIN>Reporting FI GIIN</ftc:PoolReportReportingFIGIIN>
+                    <ftc:PoolReportMessageRefId>Message Ref ID</ftc:PoolReportMessageRefId>
+                    <ftc:PoolReportDocRefId>Doc Ref ID</ftc:PoolReportDocRefId>
+                </ftc:CARRef>
+                -->
+                <ftc:AdditionalData>
+                    <ftc:AdditionalItem>
+                        <ftc:ItemName>Additional Item</ftc:ItemName>
+                        <ftc:ItemContent>Additional Item Content</ftc:ItemContent>
+                    </ftc:AdditionalItem>
+                </ftc:AdditionalData>
+            </ftc:AccountReport>
+            <ftc:PoolReport>
+                <ftc:DocSpec>
+                    <ftc:DocTypeIndic>FATCA11</ftc:DocTypeIndic>
+                    <ftc:DocRefId>2IW3WK.00000.LE.152.DR1-5</ftc:DocRefId>
+                    <!--
+                    <ftc:CorrMessageRefId>MessageRefId from file being corrected</ftc:CorrMessageRefId>
+                    <ftc:CorrDocRefId>DocRefId from file being corrected</ftc:CorrDocRefId>
+                    -->
+                </ftc:DocSpec>
+                <ftc:AccountCount>200</ftc:AccountCount>
+                <ftc:AccountPoolReportType>FATCA201</ftc:AccountPoolReportType>
+                <ftc:PoolBalance currCode="RUB">2121297149.62</ftc:PoolBalance>
+            </ftc:PoolReport>
+        </ftc:ReportingGroup>
+    </ftc:FATCA>
+</ftc:FATCA_OECD>

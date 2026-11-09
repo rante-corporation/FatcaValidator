@@ -1,0 +1,30 @@
+<Project>
+
+  <!-- Settings shared by every project. Retarget the whole repository here. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- A new advisory for a package stays a warning, so it does not break the build by itself. -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Product>FatcaValidator</Product>
+    <Authors>Rante Corporation</Authors>
+    <Company>Rante Corporation</Company>
+    <Copyright>Copyright (c) 2026 Rante Corporation</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/rante-corporation/FatcaValidator</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rante-corporation/FatcaValidator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+</Project>

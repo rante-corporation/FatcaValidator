@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>fatca-val</AssemblyName>
+    <RootNamespace>FatcaValidator.Cli</RootNamespace>
+    <Description>Command-line FATCA and CRS XML schema validator.</Description>
+    <IsPackable>false</IsPackable>
+    <!--
+      Native AOT: `dotnet publish -c Release -r win-x64` (or linux-x64, osx-arm64, ...) produces one
+      self-contained native executable, fatca-val(.exe), that needs no .NET runtime on the machine.
+    -->
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FatcaValidator.Core\FatcaValidator.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="FatcaValidator.Tests" />
+  </ItemGroup>
+
+</Project>
