@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written test data, not an OECD sample: a CRS status message that rejects crs-v3-individual-account.xml
+     as a whole. The code and texts are fictitious. -->
+<csm:CRSStatusMessage_OECD xmlns:csm="urn:oecd:ties:csm:v2" version="2.0">
+  <csm:MessageSpec>
+    <csm:TransmittingCountry>FR</csm:TransmittingCountry>
+    <csm:ReceivingCountry>NL</csm:ReceivingCountry>
+    <csm:MessageType>CRSMessageStatus</csm:MessageType>
+    <csm:MessageRefId>FR2026NL-EXAMPLE-STATUS-0002</csm:MessageRefId>
+    <csm:Timestamp>2027-03-15T11:00:00</csm:Timestamp>
+  </csm:MessageSpec>
+  <csm:CrsStatusMessage>
+    <csm:OriginalMessage>
+      <csm:OriginalMessageRefID>NL2026FR-EXAMPLE-0001</csm:OriginalMessageRefID>
+    </csm:OriginalMessage>
+    <csm:ValidationErrors>
+      <csm:FileError>
+        <csm:Code>EXAMPLE2</csm:Code>
+        <csm:Details>Example file error: the message could not be processed.</csm:Details>
+      </csm:FileError>
+    </csm:ValidationErrors>
+    <csm:ValidationResult>
+      <csm:Status>Rejected</csm:Status>
+      <csm:ValidatedBy>Example tax administration</csm:ValidatedBy>
+    </csm:ValidationResult>
+  </csm:CrsStatusMessage>
+</csm:CRSStatusMessage_OECD>

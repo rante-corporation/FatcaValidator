@@ -48,3 +48,7 @@ pre-flight tests; it is not an IRS sample.
 `crs-v2-individual-account.xml` (CRS XML v2.0) and `crs-v3-individual-account.xml` (CRS XML v3.0) were
 written for these tests from the schemas; they are not official OECD samples. The institution, person,
 numbers and amounts in them are fictitious.
+
+`crs-status-message-record-error.xml` and `crs-status-message-rejected.xml` are CRS status messages (v2.0)
+about `crs-v3-individual-account.xml`, written for the explain and history tests: one accepts it with a record
+error, the other rejects it. Their codes (`EXAMPLE1`, `EXAMPLE2`) and texts are fictitious, not OECD codes.

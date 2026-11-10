@@ -46,6 +46,9 @@ public enum IssueSource
 
     /// <summary>The validator itself: the file could not be checked, or a step was skipped.</summary>
     Validator,
+
+    /// <summary>The checks against the submission history: messages and records sent before.</summary>
+    History,
 }
 
 /// <summary>One error or warning, with its position in the XML file when that is known.</summary>
@@ -65,12 +68,12 @@ public sealed record ValidationIssue(
 {
     /// <summary>
     /// Formats the issue as "Line 12, Position 6: message", or just the message when the position is not known. Rule,
-    /// pre-flight and FFI list findings start with their code in brackets.
+    /// pre-flight, FFI list and history findings start with their code in brackets.
     /// </summary>
     public override string ToString()
     {
         string where = LineNumber > 0 ? $"Line {LineNumber}, Position {LinePosition}: " : "";
-        string code = Code is not null && Source is IssueSource.Rule or IssueSource.Preflight or IssueSource.FfiList ? $"[{Code}] " : "";
+        string code = Code is not null && Source is IssueSource.Rule or IssueSource.Preflight or IssueSource.FfiList or IssueSource.History ? $"[{Code}] " : "";
         return where + code + Message;
     }
 }
@@ -102,7 +105,7 @@ public static class IssueCodes
     /// <summary>The schema file could not be loaded or compiled.</summary>
     public const string SchemaNotLoaded = "SCHEMA-NOT-LOADED";
 
-    /// <summary>Business rules were not run because the file breaks its schema.</summary>
+    /// <summary>Business rules, GIIN checks and history checks were not run because the file breaks its schema.</summary>
     public const string RulesSkipped = "RULES-SKIPPED";
 }
 

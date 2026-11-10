@@ -22,8 +22,11 @@ internal static class ExitCodes
 /// <summary>One validated file.</summary>
 internal sealed record FileReport(string Path, ValidationResult Result);
 
-/// <summary>The fatca-val command line: parses the arguments, runs the validator and writes the report.</summary>
-internal sealed class CliApp
+/// <summary>
+/// The fatca-val command line: parses the arguments, runs the validator and writes the report. The explain and
+/// history commands are in CliApp.Explain.cs and CliApp.History.cs.
+/// </summary>
+internal sealed partial class CliApp
 {
     private readonly TextWriter _output;
     private readonly TextWriter _error;
@@ -45,9 +48,9 @@ internal sealed class CliApp
     {
         var fileOption = new Option<string[]>("--file", "-f")
         {
+            // Required, but checked in Execute: a required option here would also be demanded by the explain and history commands.
             Description = "The XML files to validate: file paths, folders (their .xml files) or wildcards in the file name, such as reports/*.xml. Repeat it or list several.",
             HelpName = "path",
-            Required = true,
             Arity = ArgumentArity.OneOrMore,
             AllowMultipleArgumentsPerToken = true,
         };
@@ -90,6 +93,13 @@ internal sealed class CliApp
             HelpName = "path",
         }.AcceptExistingOnly();
 
+        Option<FileInfo> historyOption = new Option<FileInfo>("--history")
+        {
+            Description = "Your submission history file (see 'fatca-val history add'): reports are checked against the messages sent before. "
+                + "A MessageRefId or DocRefId used before is an error, and corrections must name the latest version of a record that was sent.",
+            HelpName = "path",
+        }.AcceptExistingOnly();
+
         var formatOption = new Option<string>("--format")
         {
             Description = "The report format: text, json, sarif (for code-scanning tools) or junit (for CI test reports).",
@@ -98,11 +108,7 @@ internal sealed class CliApp
         };
         formatOption.AcceptOnlyFromAmong("text", "json", "sarif", "junit");
 
-        var outputOption = new Option<FileInfo>("--output", "-o")
-        {
-            Description = "Write the report to this file instead of the console.",
-            HelpName = "path",
-        };
+        Option<FileInfo> outputOption = OutputOption();
 
         var maxErrorsOption = new Option<int>("--max-errors", "-m")
         {
@@ -118,6 +124,7 @@ internal sealed class CliApp
             }
         });
 
+        var app = new CliApp(output, error, useColor);
         var command = new RootCommand("Validates FATCA and CRS XML reports against the official IRS and OECD XML schemas, your own business rules and the FATCA upload pre-flight.")
         {
             fileOption,
@@ -127,20 +134,23 @@ internal sealed class CliApp
             preflightOption,
             metadataOption,
             ffiListOption,
+            historyOption,
             formatOption,
             outputOption,
             maxErrorsOption,
+            app.ExplainCommand(),
+            app.HistoryCommand(),
         };
 
-        var app = new CliApp(output, error, useColor);
         command.SetAction(parseResult => app.Execute(new Settings(
-            parseResult.GetRequiredValue(fileOption),
+            parseResult.GetValue(fileOption) ?? [],
             parseResult.GetValue(recursiveOption),
             parseResult.GetValue(schemaOption),
             parseResult.GetValue(rulesOption) ?? [],
             parseResult.GetValue(preflightOption),
             parseResult.GetValue(metadataOption),
             parseResult.GetValue(ffiListOption),
+            parseResult.GetValue(historyOption),
             parseResult.GetValue(formatOption) ?? "text",
             parseResult.GetValue(outputOption),
             parseResult.GetValue(maxErrorsOption))));
@@ -168,6 +178,12 @@ internal sealed class CliApp
 
     private int Execute(Settings settings)
     {
+        if (settings.Inputs.Length == 0)
+        {
+            _error.WriteLine("fatca-val: Option '--file' is required. Run 'fatca-val --help' for the options and commands.");
+            return ExitCodes.NotValidated;
+        }
+
         var inputErrors = new List<string>();
         List<string> files = InputFiles.Expand(settings.Inputs, settings.Recursive, inputErrors);
         if (inputErrors.Count > 0)
@@ -214,16 +230,31 @@ internal sealed class CliApp
             }
         }
 
+        SubmissionHistory? history = null;
+        if (settings.History is not null)
+        {
+            try
+            {
+                history = SubmissionHistory.Load(settings.History.FullName);
+            }
+            catch (HistoryException ex)
+            {
+                _error.WriteLine($"fatca-val: {ex.Message}");
+                return ExitCodes.NotValidated;
+            }
+        }
+
         var engine = new ValidatorEngine
         {
             MaxIssuesPerSeverity = settings.MaxErrors,
             RuleSets = ruleSets,
             FatcaPreflight = settings.Preflight || settings.Metadata is not null,
             FfiList = ffiList,
+            History = history,
         };
         var options = new ValidationOptions { SchemaPath = settings.Schema?.FullName, MetadataPath = settings.Metadata?.FullName };
         var reports = files.Select(file => new FileReport(file, engine.Validate(file, options))).ToList();
-        var run = new RunInfo(ffiList);
+        var run = new RunInfo(ffiList, history);
 
         IReportWriter writer = settings.Format switch
         {
@@ -233,23 +264,13 @@ internal sealed class CliApp
             _ => new TextReportWriter(_useColor && settings.Output is null),
         };
 
-        if (settings.Output is null)
+        if (!WriteReport(settings.Output, output => writer.Write(reports, run, output)))
         {
-            writer.Write(reports, run, _output);
+            return ExitCodes.NotValidated;
         }
-        else
-        {
-            try
-            {
-                using var file = new StreamWriter(settings.Output.FullName, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-                writer.Write(reports, run, file);
-            }
-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-            {
-                _error.WriteLine($"fatca-val: the report could not be written to '{settings.Output.FullName}': {ex.Message}");
-                return ExitCodes.NotValidated;
-            }
 
+        if (settings.Output is not null)
+        {
             _output.WriteLine($"{Summary.Describe(reports)} Report: {settings.Output.FullName}");
         }
 
@@ -261,6 +282,35 @@ internal sealed class CliApp
         });
     }
 
+    /// <summary>The --output option, shared by the commands that write a report.</summary>
+    private static Option<FileInfo> OutputOption() => new("--output", "-o")
+    {
+        Description = "Write the report to this file instead of the console.",
+        HelpName = "path",
+    };
+
+    /// <summary>Writes a report to the console, or to the --output file; false (after telling why) when the file cannot be written.</summary>
+    private bool WriteReport(FileInfo? file, Action<TextWriter> write)
+    {
+        if (file is null)
+        {
+            write(_output);
+            return true;
+        }
+
+        try
+        {
+            using var writer = new StreamWriter(file.FullName, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            write(writer);
+            return true;
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _error.WriteLine($"fatca-val: the report could not be written to '{file.FullName}': {ex.Message}");
+            return false;
+        }
+    }
+
     private sealed record Settings(
         string[] Inputs,
         bool Recursive,
@@ -269,6 +319,7 @@ internal sealed class CliApp
         bool Preflight,
         FileInfo? Metadata,
         FileInfo? FfiList,
+        FileInfo? History,
         string Format,
         FileInfo? Output,
         int MaxErrors);

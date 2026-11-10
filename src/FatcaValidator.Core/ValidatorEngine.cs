@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Schema;
@@ -89,6 +90,13 @@ public sealed partial class ValidatorEngine
     /// <see cref="FatcaValidator.Core.FfiList.Load(string)"/>.
     /// </summary>
     public FfiList? FfiList { get; init; }
+
+    /// <summary>
+    /// The submission history to check reports against: a MessageRefId or DocRefId used before is an error, and a
+    /// correction must name the latest version of a record that was sent and not rejected (<see cref="HistoryCheckCodes"/>).
+    /// Load it with <see cref="SubmissionHistory.Load(string)"/>.
+    /// </summary>
+    public SubmissionHistory? History { get; init; }
 
     /// <summary>
     /// Validates an XML file against the bundled schema that matches its root element, or against
@@ -244,11 +252,20 @@ public sealed partial class ValidatorEngine
                     GiinChecks.Run(document, FfiList!, issues);
                 }
             }
-            else if (!schemaValid && (ruleSets.Count > 0 || giinCheck))
+            else if (!schemaValid && (ruleSets.Count > 0 || giinCheck || History is not null))
             {
                 issues.Add(new ValidationIssue(ValidationSeverity.Warning,
-                    "Business rules and GIIN checks were not run because the file breaks its schema; fix the schema errors first.",
+                    "Business rules, GIIN checks and history checks were not run because the file breaks its schema; fix the schema errors first.",
                     0, 0, IssueCodes.RulesSkipped, IssueSource.Validator));
+            }
+
+            // 5b. The submission history: MessageRefIds and DocRefIds sent before, and what corrections refer to.
+            if (History is not null && schemaValid)
+            {
+                xml.Position = start;
+                string sha256 = Convert.ToHexStringLower(SHA256.HashData(xml));
+                xml.Position = start;
+                HistoryChecks.Run(ReportSummary.Read(xml), sha256, History, issues);
             }
 
             // 6. The FATCA upload pre-flight's file checks (and the metadata file).

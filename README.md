@@ -32,8 +32,14 @@ are in [Schemas/README.md](src/FatcaValidator.Core/Schemas/README.md).
 
 ```
 fatca-val --file <path>... [--recursive] [--schema <path>] [--rules <path>]... [--preflight] [--metadata <path>]
-          [--format text|json|sarif|junit] [--output <path>] [--max-errors <count>]
+          [--ffi-list <path>] [--history <path>] [--format text|json|sarif|junit] [--output <path>] [--max-errors <count>]
+fatca-val history add --history <path> --file <path>... [--message <MessageRefId>]
+fatca-val history list --history <path> [--format text|json] [--output <path>]
+fatca-val explain --file <path>... [--report <path>]... [--history <path>] [--format text|json] [--output <path>]
 ```
+
+The first form validates files; the [history](#submission-history) and [explain](#explain-notifications-and-status-messages)
+commands are described below.
 
 | Option | Meaning |
 |---|---|
@@ -44,6 +50,7 @@ fatca-val --file <path>... [--recursive] [--schema <path>] [--rules <path>]... [
 | `--preflight` | The FATCA upload pre-flight (see [below](#fatca-upload-pre-flight)). |
 | `--metadata` | The IDES sender metadata file that goes with the report. It implies `--preflight` and takes one `--file`. |
 | `--ffi-list` | The IRS FFI list file, to check the report's GIINs against (see [below](#giin-check-against-the-irs-ffi-list)). |
+| `--history` | Your submission history file, to check reports against the messages sent before (see [below](#submission-history)). |
 | `--format` | `text` (the default), `json`, `sarif` or `junit`. |
 | `-o`, `--output` | Write the report to a file instead of the console. |
 | `-m`, `--max-errors` | How many errors, and separately how many warnings, to list per file. Default 100; the totals are always counted. |
@@ -53,6 +60,7 @@ fatca-val --file report.xml
 fatca-val --file report.xml --preflight --metadata report-metadata.xml
 fatca-val --file report.xml --rules acme.rules.json
 fatca-val --file report.xml --ffi-list FFIListFullXml.zip
+fatca-val --file report.xml --history fatca-history.json
 fatca-val --file reports/ --recursive --format sarif --output results.sarif
 ```
 
@@ -74,8 +82,13 @@ With several files, the worst status wins.
 | Code | Meaning |
 |---|---|
 | 0 | Every file is valid (warnings allowed). |
-| 1 | A file is not well-formed XML, breaks its schema, or fails a business rule or pre-flight check. |
-| 2 | Something was not validated: bad arguments, an unreadable file, no bundled schema for a root element, or a schema or rule file that cannot be loaded. |
+| 1 | A file is not well-formed XML, breaks its schema, or fails a business rule, pre-flight or history check. |
+| 2 | Something was not validated: bad arguments, an unreadable file, no bundled schema for a root element, or a schema, rule, FFI list or history file that cannot be loaded. |
+
+`history add` exits with 1 when a report was not recorded because it fails a check, and with 2 when a file is not a
+report, notification or status message, or a notification's message is not in the history. `explain` exits with 0 when
+every file was accepted without errors, 1 when there is something to do, and 2 when a file is not a notification or
+status message.
 
 ## FATCA upload pre-flight
 
@@ -114,6 +127,81 @@ November 2026 list (526,554 GIINs) a run took about 4 seconds and under 200 MB o
 month's list or compare months, see [rante-corporation/FatcaFfiList](https://github.com/rante-corporation/FatcaFfiList),
 whose reader this check uses.
 
+## Submission history
+
+A `MessageRefId` and every `DocRefId` must be unique for all time, and a correction must name the latest version of a
+record that was sent. One file cannot show that, so `fatca-val` can keep a local history of what you sent and what came
+back, in one JSON file:
+
+```
+fatca-val history add --history fatca-history.json --file sent/report-2026-01.xml
+fatca-val history add --history fatca-history.json --file inbox/notification.xml
+fatca-val --file report-2026-02.xml --history fatca-history.json
+fatca-val history list --history fatca-history.json
+```
+
+`history add` records a report only when it passes its schema and the history checks; recording the same file again
+changes nothing. It records an IRS notification or an OECD status message with the message it names. IRS file error
+notifications often cannot name one, so give it with `--message <MessageRefId>`. When reports and their notifications
+are given together, the reports are recorded first.
+
+With `--history`, each report that passes its schema is checked against the history:
+
+| Check | Code | Severity |
+|---|---|---|
+| The MessageRefId was not used before. A file that was itself recorded is reported once. | `HIST-MESSAGEREFID-REUSED` | error |
+| No DocRefId was used before. Reusing one from a message that was rejected as a whole is a warning: those records were never processed. | `HIST-DOCREFID-REUSED` | error or warning |
+| A correction's CorrDocRefId is in the history. The record may predate the history, so this is a warning. | `HIST-CORR-UNKNOWN` | warning |
+| CorrMessageRefId is the message that holds that record. | `HIST-CORR-MESSAGE-MISMATCH` | error |
+| That record was not already corrected, amended or voided: a correction names the latest version. | `HIST-CORR-REPLACED` | error |
+| That record's message was not rejected as a whole. | `HIST-CORR-REJECTED` | error |
+
+Corrections are the records with `FATCA2`, `FATCA3` or `FATCA4`, or `OECD2` or `OECD3`, and their test codes. Resent
+data (`OECD0`) is not checked for reuse. Test data (`FATCA11` to `FATCA14`, `OECD10` to `OECD13`) is checked against the
+test messages in the history only, and production data against the production messages.
+
+The history keeps each message's MessageSpec, each record's DocRefId, DocTypeIndic and correction references, the file
+names and SHA-256 hashes, and the codes of the feedback received. It keeps no names, TINs, account numbers or amounts.
+A message's status (sent, accepted or rejected) is that of the latest feedback recorded for it. The file is replaced in
+one step when it is saved, so a failed write leaves the previous version.
+
+## Explain notifications and status messages
+
+`explain` turns IRS FATCA notifications (Notification XML v2.5) and OECD status messages (CRS, CbC, ETR and generic,
+v2.0) into a to-do list: whether your file was accepted, and each file and record error with the authority's code, its
+own text, and the action and due date the IRS asks for.
+
+```
+fatca-val explain --file notification.xml --report report.xml
+```
+
+For example, the IRS's sample record-level error notification (long texts shortened here):
+
+```
+> fatca-val explain --file RecordLevelErrorNotification_2.5.xml
+File:    C:\inbox\RecordLevelErrorNotification_2.5.xml
+Type:    FATCA Valid File Notification v2.5 (IRS)
+Code:    NVF - Valid File Notification (N5)
+Result:  ACCEPTED - the IRS processed the file; 1 record error to correct (the file had 1 record).
+From:    000000.00000.TA.840 to 528L2G.00000.BR.152, reference 306, created 2017-01-23T20:12:17Z
+About:   message EK9AMD70722-1, transmission a32be902284a41c593096a80633f0b94 sent 2017-01-22T20:08:18.18Z, file 20141210T004725848Z_528L2G.00000.BR.152.zip
+
+The IRS says: The IRS has determined that the referenced file is in a valid format. ...
+
+To do (1):
+  1. Record error 8021
+       Record:  ACCOUNT_REPORT 528L2G.00000.BR.152.DocRefIdEK9AMD70722-6 (FATCA1)
+       Corrects: 528L2G.00000.BR.152.DocRefIdEK70722-6 in message EK70722-1
+       Institution: 528L2G.00000.BR.152 (The BIG Chilialn BANK)
+       Action:  Your file contains a report with an invalid DocRefID format. You should NOT attempt to amend, correct, or void the record as the record was not processed. ...
+       Due:     Correct the errors within 120 days of the date of this notice.
+```
+
+With `--report`, each record error points at the record's line in the report you sent, matched by MessageRefId. With
+`--history`, it says when that message was recorded as sent. The names of the IRS notification codes (`NVF`, `NSV`,
+`NDM` and so on) come from the IRS notification schema. The IRS's record-level codes and the OECD's status message
+codes are not in their schemas, so `explain` shows them with the texts the notification or status message gives.
+
 ## Business rules
 
 Your own checks go in a JSON rule file: each rule is an XPath check with an id (its error code), a severity and a
@@ -151,11 +239,12 @@ The format, the functions (`fv:matches` for regular expressions and others) and 
 It checks that each file is well-formed and that it follows its schema completely: structure and order, required
 elements, data types and lengths, and the code lists in the schemas (countries, currencies, message and document type
 indicators, and so on). With `--preflight` and `--rules`, it also checks the FATCA rules above and your own; with
-`--ffi-list`, the GIINs against the IRS's list.
+`--ffi-list`, the GIINs against the IRS's list; with `--history`, the identifiers and corrections against what you sent
+before.
 
-It does not know every rule of every tax administration, and it cannot check facts outside the file, such as whether a
-`CorrDocRefId` refers to a record that was sent before. A file that passes here can still be rejected after it is
-submitted.
+It does not know every rule of every tax administration. It knows only the messages in your history: a correction of a
+record sent before the history was started is a warning, not a finding. A file that passes here can still be rejected
+after it is submitted.
 
 ## Security
 
@@ -209,6 +298,7 @@ var engine = new ValidatorEngine
     FatcaPreflight = true,                                   // optional: the FATCA upload pre-flight
     RuleSets = [RuleSet.Load("acme.rules.json")],            // optional: your own rules
     FfiList = FfiList.Load("FFIListFullXml.zip"),            // optional: GIINs against the IRS FFI list
+    History = SubmissionHistory.Load("fatca-history.json"),  // optional: the messages sent before
 };
 
 ValidationResult result = engine.Validate("report.xml", new ValidationOptions { MetadataPath = "report-metadata.xml" });
@@ -222,8 +312,12 @@ if (!result.IsValid)
 ```
 
 `ValidationResult.Status` is `Valid`, `Invalid` or `NotValidated`; every issue has a `Code`, a `Source` (XML, schema,
-rule, pre-flight or validator), a severity, a line and a position. An engine compiles each schema once and reuses it; it
-is not thread-safe, so use one engine (and its own rule sets) per thread.
+rule, pre-flight, FFI list, history or validator), a severity, a line and a position. An engine compiles each schema
+once and reuses it; it is not thread-safe, so use one engine (and its own rule sets) per thread.
+
+`FeedbackDocument.Read("notification.xml")` reads an IRS notification or an OECD status message, and
+`ReportSummary.Read("report.xml")` a report's MessageSpec and DocSpecs; `SubmissionHistory.AddMessage` and
+`AddFeedback` record them.
 
 ## Repository layout
 
@@ -236,8 +330,10 @@ src/
     Rules/                  the rule engine and the built-in IRS rules
     Preflight/              the FATCA upload pre-flight
     FfiList/                the GIIN check against the IRS FFI list (reader from FatcaFfiList)
+    History/                the submission history, its checks and the report summary it keeps
+    Feedback/               reading IRS notifications and OECD status messages
     Schemas/                official IRS and OECD .xsd files, embedded in the assembly
-  FatcaValidator.Cli/       the fatca-val command (System.CommandLine) and the report writers
+  FatcaValidator.Cli/       the fatca-val commands (System.CommandLine) and the report writers
 tests/
   FatcaValidator.Tests/     xUnit tests, with the IRS sample files as test data
 docs/business-rules.md      the rule file format

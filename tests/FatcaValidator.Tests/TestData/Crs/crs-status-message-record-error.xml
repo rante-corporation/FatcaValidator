@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written test data, not an OECD sample: an accepted CRS status message with one record error about
+     crs-v3-individual-account.xml. The code and texts are fictitious. -->
+<csm:CRSStatusMessage_OECD xmlns:csm="urn:oecd:ties:csm:v2" version="2.0">
+  <csm:MessageSpec>
+    <csm:TransmittingCountry>FR</csm:TransmittingCountry>
+    <csm:ReceivingCountry>NL</csm:ReceivingCountry>
+    <csm:MessageType>CRSMessageStatus</csm:MessageType>
+    <csm:MessageRefId>FR2026NL-EXAMPLE-STATUS-0001</csm:MessageRefId>
+    <csm:Timestamp>2027-03-15T10:30:00</csm:Timestamp>
+  </csm:MessageSpec>
+  <csm:CrsStatusMessage>
+    <csm:OriginalMessage>
+      <csm:OriginalMessageRefID>NL2026FR-EXAMPLE-0001</csm:OriginalMessageRefID>
+      <csm:FileMetaData>
+        <csm:CTSTransmissionID>EXAMPLE-CTS-TRANSMISSION-0001</csm:CTSTransmissionID>
+        <csm:CTSSendingTimeStamp>2027-03-01T10:00:00</csm:CTSSendingTimeStamp>
+        <csm:UncompressedFileSizeKBQty>4</csm:UncompressedFileSizeKBQty>
+      </csm:FileMetaData>
+    </csm:OriginalMessage>
+    <csm:ValidationErrors>
+      <csm:RecordError>
+        <csm:Code>EXAMPLE1</csm:Code>
+        <csm:Details>Example record error: the account holder's TIN is not in the expected format.</csm:Details>
+        <csm:DocRefIDInError>NL2026-EXAMPLE-ACCOUNT-0001</csm:DocRefIDInError>
+        <csm:FieldsInError>
+          <csm:FieldPath>CRS_OECD/CrsBody/ReportingGroup/AccountReport/AccountHolder/Individual/TIN</csm:FieldPath>
+        </csm:FieldsInError>
+      </csm:RecordError>
+    </csm:ValidationErrors>
+    <csm:ValidationResult>
+      <csm:Status>Accepted</csm:Status>
+      <csm:ValidatedBy>Example tax administration</csm:ValidatedBy>
+    </csm:ValidationResult>
+  </csm:CrsStatusMessage>
+</csm:CRSStatusMessage_OECD>

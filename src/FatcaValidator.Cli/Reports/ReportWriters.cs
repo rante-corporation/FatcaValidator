@@ -12,8 +12,8 @@ internal interface IReportWriter
     void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output);
 }
 
-/// <summary>What a run used besides the files: the FFI list for the GIIN checks, if any.</summary>
-internal sealed record RunInfo(FfiList? FfiList);
+/// <summary>What a run used besides the files: the FFI list for the GIIN checks and the submission history, if any.</summary>
+internal sealed record RunInfo(FfiList? FfiList, SubmissionHistory? History = null);
 
 /// <summary>The tool's name, version and home page, as reports show them.</summary>
 internal static class ToolInfo
@@ -65,6 +65,7 @@ internal static class Summary
         IssueSource.Rule => "rule",
         IssueSource.Preflight => "preflight",
         IssueSource.FfiList => "ffi-list",
+        IssueSource.History => "history",
         _ => "validator",
     };
 }
@@ -77,6 +78,15 @@ internal sealed class TextReportWriter(bool useColor) : IReportWriter
         if (run.FfiList is not null)
         {
             output.WriteLine($"FFI list: {run.FfiList.Describe()}");
+        }
+
+        if (run.History is not null)
+        {
+            output.WriteLine($"History:  {run.History.Describe()}");
+        }
+
+        if (run.FfiList is not null || run.History is not null)
+        {
             output.WriteLine();
         }
 
@@ -190,6 +200,19 @@ internal sealed class JsonReportWriter : IReportWriter
                 json.WriteEndObject();
             }
 
+            if (run.History is null)
+            {
+                json.WriteNull("history");
+            }
+            else
+            {
+                json.WriteStartObject("history");
+                json.WriteString("file", run.History.Path);
+                json.WriteNumber("messages", run.History.Messages.Count);
+                json.WriteNumber("records", run.History.RecordCount);
+                json.WriteEndObject();
+            }
+
             json.WriteStartObject("summary");
             json.WriteNumber("files", reports.Count);
             json.WriteNumber("valid", reports.Count(r => r.Result.Status == ValidationStatus.Valid));
@@ -272,6 +295,12 @@ internal sealed class SarifReportWriter : IReportWriter
         [GiinCheckCodes.Format] = "A field that should hold a GIIN does not hold a well-formed one.",
         [GiinCheckCodes.NotListed] = "The GIIN is not on the IRS FFI list.",
         [GiinCheckCodes.NameDiffers] = "The name in the report differs from the name on the IRS FFI list.",
+        [HistoryCheckCodes.MessageRefIdReused] = "The MessageRefId was used by a message already sent.",
+        [HistoryCheckCodes.DocRefIdReused] = "The DocRefId was used by a record already sent.",
+        [HistoryCheckCodes.CorrectionTargetUnknown] = "The corrected record is not in the submission history.",
+        [HistoryCheckCodes.CorrMessageRefIdMismatch] = "CorrMessageRefId is not the message that holds the corrected record.",
+        [HistoryCheckCodes.CorrectionTargetReplaced] = "The corrected record was already corrected, amended or voided.",
+        [HistoryCheckCodes.CorrectionTargetRejected] = "The corrected record was in a message that was rejected as a whole.",
     };
 
     public void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output)
