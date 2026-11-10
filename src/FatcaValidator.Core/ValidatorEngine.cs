@@ -84,6 +84,13 @@ public sealed partial class ValidatorEngine
     public long PreflightMaxCompressedBytes { get; init; } = 200_000_000;
 
     /// <summary>
+    /// The IRS FFI list to check the GIINs of FATCA XML v2 reports against: the sender, the reporting FI, sponsors and
+    /// intermediaries. Findings are warnings (<see cref="GiinCheckCodes"/>). Load it once with
+    /// <see cref="FatcaValidator.Core.FfiList.Load(string)"/>.
+    /// </summary>
+    public FfiList? FfiList { get; init; }
+
+    /// <summary>
     /// Validates an XML file against the bundled schema that matches its root element, or against
     /// <paramref name="schemaPath"/> when one is given.
     /// </summary>
@@ -212,8 +219,10 @@ public sealed partial class ValidatorEngine
 
             bool schemaValid = issues.ErrorCount == 0;
 
-            // 5. Business rules, which need the document in memory and a schema-valid file.
-            bool preflight = FatcaPreflight && root == BundledSchemas.FatcaV2_0_1.RootElement;
+            // 5. Business rules and the GIIN check, which need the document in memory and a schema-valid file.
+            bool isFatca = root == BundledSchemas.FatcaV2_0_1.RootElement;
+            bool preflight = FatcaPreflight && isFatca;
+            bool giinCheck = FfiList is not null && isFatca;
             var ruleSets = RuleSets.Where(ruleSet => ruleSet.AppliesToNamespace(root.Namespace)).ToList();
             if (preflight)
             {
@@ -221,7 +230,7 @@ public sealed partial class ValidatorEngine
             }
 
             XPathNavigator? document = null;
-            if (schemaValid && (ruleSets.Count > 0 || (preflight && metadataFile is not null)))
+            if (schemaValid && (ruleSets.Count > 0 || giinCheck || (preflight && metadataFile is not null)))
             {
                 xml.Position = start;
                 document = LoadDocument(xml);
@@ -229,11 +238,16 @@ public sealed partial class ValidatorEngine
                 {
                     ruleSet.Evaluate(document, issues);
                 }
+
+                if (giinCheck)
+                {
+                    GiinChecks.Run(document, FfiList!, issues);
+                }
             }
-            else if (!schemaValid && ruleSets.Count > 0)
+            else if (!schemaValid && (ruleSets.Count > 0 || giinCheck))
             {
                 issues.Add(new ValidationIssue(ValidationSeverity.Warning,
-                    "Business rules were not run because the file breaks its schema; fix the schema errors first.",
+                    "Business rules and GIIN checks were not run because the file breaks its schema; fix the schema errors first.",
                     0, 0, IssueCodes.RulesSkipped, IssueSource.Validator));
             }
 

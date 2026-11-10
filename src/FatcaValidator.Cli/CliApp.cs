@@ -83,6 +83,13 @@ internal sealed class CliApp
             HelpName = "path",
         }.AcceptExistingOnly();
 
+        Option<FileInfo> ffiListOption = new Option<FileInfo>("--ffi-list")
+        {
+            Description = "The IRS FATCA FFI list (FFIListFullXml.zip or FFIListFull.xml, published monthly by the IRS): checks the GIINs "
+                + "of FATCA reports against it (sender, reporting FI, sponsors, intermediaries). Findings are warnings.",
+            HelpName = "path",
+        }.AcceptExistingOnly();
+
         var formatOption = new Option<string>("--format")
         {
             Description = "The report format: text, json, sarif (for code-scanning tools) or junit (for CI test reports).",
@@ -119,6 +126,7 @@ internal sealed class CliApp
             rulesOption,
             preflightOption,
             metadataOption,
+            ffiListOption,
             formatOption,
             outputOption,
             maxErrorsOption,
@@ -132,6 +140,7 @@ internal sealed class CliApp
             parseResult.GetValue(rulesOption) ?? [],
             parseResult.GetValue(preflightOption),
             parseResult.GetValue(metadataOption),
+            parseResult.GetValue(ffiListOption),
             parseResult.GetValue(formatOption) ?? "text",
             parseResult.GetValue(outputOption),
             parseResult.GetValue(maxErrorsOption))));
@@ -191,14 +200,30 @@ internal sealed class CliApp
             }
         }
 
+        FfiList? ffiList = null;
+        if (settings.FfiList is not null)
+        {
+            try
+            {
+                ffiList = FfiList.Load(settings.FfiList.FullName);
+            }
+            catch (FfiListException ex)
+            {
+                _error.WriteLine($"fatca-val: {ex.Message}");
+                return ExitCodes.NotValidated;
+            }
+        }
+
         var engine = new ValidatorEngine
         {
             MaxIssuesPerSeverity = settings.MaxErrors,
             RuleSets = ruleSets,
             FatcaPreflight = settings.Preflight || settings.Metadata is not null,
+            FfiList = ffiList,
         };
         var options = new ValidationOptions { SchemaPath = settings.Schema?.FullName, MetadataPath = settings.Metadata?.FullName };
         var reports = files.Select(file => new FileReport(file, engine.Validate(file, options))).ToList();
+        var run = new RunInfo(ffiList);
 
         IReportWriter writer = settings.Format switch
         {
@@ -210,14 +235,14 @@ internal sealed class CliApp
 
         if (settings.Output is null)
         {
-            writer.Write(reports, _output);
+            writer.Write(reports, run, _output);
         }
         else
         {
             try
             {
                 using var file = new StreamWriter(settings.Output.FullName, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
-                writer.Write(reports, file);
+                writer.Write(reports, run, file);
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
@@ -243,6 +268,7 @@ internal sealed class CliApp
         FileInfo[] RuleFiles,
         bool Preflight,
         FileInfo? Metadata,
+        FileInfo? FfiList,
         string Format,
         FileInfo? Output,
         int MaxErrors);

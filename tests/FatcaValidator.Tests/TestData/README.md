@@ -27,6 +27,17 @@ The four samples in the IRS's FATCA Notification XML v2.5 package
 | `RecordLevelErrorNotification_2.5.xml` | `8814f11d31341f1d00e7611219bc8c60d8e9592f66e5e840a1f94d1660fd671c` |
 | `ValidFileNotification_2.5.xml` | `2d617fdf6b17762e662e44dfcfee19d194685199f9656c2283fc10f4ec7929aa` |
 
+### `Irs/FfiList/`: the IRS's example FFI list (official, unchanged)
+
+`FFIListExample.xml` (3,687 bytes, SHA-256 `6ee471e3442772b300889abd519e428a51578ff387cf3de3372bc669cb47840d`) is the IRS's
+sample FFI list file from its [FFI list schema and test files](https://www.irs.gov/businesses/international-businesses/irs-ffi-list-schema-and-test-files)
+page, as kept in the tests of [rante-corporation/FatcaFfiList](https://github.com/rante-corporation/FatcaFfiList).
+
+## `Ffi/`: hand-written FFI list
+
+`ffi-list-irs-samples.xml` is a three-row list in the IRS's published format holding the GIINs of the IRS's sample
+reports, written for the GIIN-check tests; the real list does not contain those sample GIINs.
+
 ## `Fatca/`: hand-written FATCA files
 
 `newnilfireport-metadata.xml` is IDES sender metadata (v1.3) for the IRS sample `newnilfireport.xml`, written for the

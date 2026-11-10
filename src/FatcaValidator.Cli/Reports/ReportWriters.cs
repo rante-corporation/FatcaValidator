@@ -9,8 +9,11 @@ namespace FatcaValidator.Cli.Reports;
 /// <summary>Writes the results of a run in one format.</summary>
 internal interface IReportWriter
 {
-    void Write(IReadOnlyList<FileReport> reports, TextWriter output);
+    void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output);
 }
+
+/// <summary>What a run used besides the files: the FFI list for the GIIN checks, if any.</summary>
+internal sealed record RunInfo(FfiList? FfiList);
 
 /// <summary>The tool's name, version and home page, as reports show them.</summary>
 internal static class ToolInfo
@@ -61,6 +64,7 @@ internal static class Summary
         IssueSource.Schema => "schema",
         IssueSource.Rule => "rule",
         IssueSource.Preflight => "preflight",
+        IssueSource.FfiList => "ffi-list",
         _ => "validator",
     };
 }
@@ -68,8 +72,14 @@ internal static class Summary
 /// <summary>The human-readable report: one block per file, then a summary line when there are several.</summary>
 internal sealed class TextReportWriter(bool useColor) : IReportWriter
 {
-    public void Write(IReadOnlyList<FileReport> reports, TextWriter output)
+    public void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output)
     {
+        if (run.FfiList is not null)
+        {
+            output.WriteLine($"FFI list: {run.FfiList.Describe()}");
+            output.WriteLine();
+        }
+
         for (int i = 0; i < reports.Count; i++)
         {
             if (i > 0)
@@ -148,7 +158,7 @@ internal sealed class TextReportWriter(bool useColor) : IReportWriter
 /// <summary>The JSON report: a summary and, per file, its status, counts and issues.</summary>
 internal sealed class JsonReportWriter : IReportWriter
 {
-    public void Write(IReadOnlyList<FileReport> reports, TextWriter output)
+    public void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output)
     {
         using var buffer = new MemoryStream();
         using (var json = new Utf8JsonWriter(buffer, new JsonWriterOptions { Indented = true }))
@@ -158,6 +168,27 @@ internal sealed class JsonReportWriter : IReportWriter
             json.WriteString("name", ToolInfo.Name);
             json.WriteString("version", ToolInfo.Version);
             json.WriteEndObject();
+
+            if (run.FfiList is null)
+            {
+                json.WriteNull("ffiList");
+            }
+            else
+            {
+                json.WriteStartObject("ffiList");
+                json.WriteString("file", run.FfiList.Source);
+                json.WriteNumber("giins", run.FfiList.Count);
+                if (run.FfiList.FileTimestamp is { } dated)
+                {
+                    json.WriteString("fileDated", dated.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    json.WriteNull("fileDated");
+                }
+
+                json.WriteEndObject();
+            }
 
             json.WriteStartObject("summary");
             json.WriteNumber("files", reports.Count);
@@ -238,9 +269,12 @@ internal sealed class SarifReportWriter : IReportWriter
         [PreflightCodes.MetadataFileFormat] = "The metadata file format is not XML.",
         [PreflightCodes.MetadataBinaryEncoding] = "The metadata binary encoding is not NONE.",
         [PreflightCodes.MetadataTaxYear] = "The metadata tax year differs from the reporting period.",
+        [GiinCheckCodes.Format] = "A field that should hold a GIIN does not hold a well-formed one.",
+        [GiinCheckCodes.NotListed] = "The GIIN is not on the IRS FFI list.",
+        [GiinCheckCodes.NameDiffers] = "The name in the report differs from the name on the IRS FFI list.",
     };
 
-    public void Write(IReadOnlyList<FileReport> reports, TextWriter output)
+    public void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output)
     {
         var issues = reports.SelectMany(report => report.Result.Issues.Select(issue => (report.Path, Issue: issue))).ToList();
         var ruleIds = issues.Select(item => item.Issue.Code ?? "FATCA-VAL").Distinct(StringComparer.Ordinal).ToList();
@@ -327,7 +361,7 @@ internal sealed class SarifReportWriter : IReportWriter
 /// <summary>JUnit XML, for CI test reports: one test case per file; invalid files fail, unvalidated files are errors.</summary>
 internal sealed class JUnitReportWriter : IReportWriter
 {
-    public void Write(IReadOnlyList<FileReport> reports, TextWriter output)
+    public void Write(IReadOnlyList<FileReport> reports, RunInfo run, TextWriter output)
     {
         int failures = reports.Count(r => r.Result.Status == ValidationStatus.Invalid);
         int errors = reports.Count(r => r.Result.Status == ValidationStatus.NotValidated);

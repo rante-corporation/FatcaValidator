@@ -43,6 +43,7 @@ fatca-val --file <path>... [--recursive] [--schema <path>] [--rules <path>]... [
 | `-r`, `--rules` | A JSON file of your own business rules (see [Business rules](#business-rules)). Repeat it for several. |
 | `--preflight` | The FATCA upload pre-flight (see [below](#fatca-upload-pre-flight)). |
 | `--metadata` | The IDES sender metadata file that goes with the report. It implies `--preflight` and takes one `--file`. |
+| `--ffi-list` | The IRS FFI list file, to check the report's GIINs against (see [below](#giin-check-against-the-irs-ffi-list)). |
 | `--format` | `text` (the default), `json`, `sarif` or `junit`. |
 | `-o`, `--output` | Write the report to a file instead of the console. |
 | `-m`, `--max-errors` | How many errors, and separately how many warnings, to list per file. Default 100; the totals are always counted. |
@@ -51,6 +52,7 @@ fatca-val --file <path>... [--recursive] [--schema <path>] [--rules <path>]... [
 fatca-val --file report.xml
 fatca-val --file report.xml --preflight --metadata report-metadata.xml
 fatca-val --file report.xml --rules acme.rules.json
+fatca-val --file report.xml --ffi-list FFIListFullXml.zip
 fatca-val --file reports/ --recursive --format sarif --output results.sarif
 ```
 
@@ -92,6 +94,26 @@ encoding is `NONE`, the tax year matches the reporting period, and the sender ma
 
 The pre-flight does not check the signed, compressed and encrypted IDES data packet itself.
 
+## GIIN check against the IRS FFI list
+
+`--ffi-list` checks the GIINs in FATCA reports against the IRS's list of registered foreign financial institutions.
+The IRS publishes the list on the 1st of each month on its
+[FFI List Search and Download](https://apps.irs.gov/app/fatcaFfiList/flu.xhtml) page; pass its `FFIListFullXml.zip`, or the
+`FFIListFull.xml` inside it, as it is.
+
+| Check | Code |
+|---|---|
+| The GIIN is on the list: MessageSpec/SendingCompanyIN, ReportingFI/TIN, Sponsor/TIN, and Intermediary/TIN when it holds a GIIN | `FFI-GIIN-NOT-LISTED` |
+| The sender, reporting FI and sponsor fields hold a well-formed GIIN (`XXXXXX.XXXXX.XX.XXX`, upper case) | `FFI-GIIN-FORMAT` |
+| The reporting FI's, sponsor's and intermediary's names match the list (compared on letters and digits; one may contain the other) | `FFI-NAME-DIFFERS` |
+
+All three are warnings. The list is a monthly snapshot: an institution approved after the list's cutoff only appears in
+the next month's list. Tax authorities' GIINs (category `TA`, such as the IRS's `000000.00000.TA.840`) are not on the list
+and are not looked up. The check runs offline and reads the list once per run, however many files you check: with the
+November 2026 list (526,554 GIINs) a run took about 4 seconds and under 200 MB of memory in our tests. To keep every
+month's list or compare months, see [rante-corporation/FatcaFfiList](https://github.com/rante-corporation/FatcaFfiList),
+whose reader this check uses.
+
 ## Business rules
 
 Your own checks go in a JSON rule file: each rule is an XPath check with an id (its error code), a severity and a
@@ -128,7 +150,8 @@ The format, the functions (`fv:matches` for regular expressions and others) and 
 
 It checks that each file is well-formed and that it follows its schema completely: structure and order, required
 elements, data types and lengths, and the code lists in the schemas (countries, currencies, message and document type
-indicators, and so on). With `--preflight` and `--rules`, it also checks the FATCA rules above and your own.
+indicators, and so on). With `--preflight` and `--rules`, it also checks the FATCA rules above and your own; with
+`--ffi-list`, the GIINs against the IRS's list.
 
 It does not know every rule of every tax administration, and it cannot check facts outside the file, such as whether a
 `CorrDocRefId` refers to a record that was sent before. A file that passes here can still be rejected after it is
@@ -185,6 +208,7 @@ var engine = new ValidatorEngine
 {
     FatcaPreflight = true,                                   // optional: the FATCA upload pre-flight
     RuleSets = [RuleSet.Load("acme.rules.json")],            // optional: your own rules
+    FfiList = FfiList.Load("FFIListFullXml.zip"),            // optional: GIINs against the IRS FFI list
 };
 
 ValidationResult result = engine.Validate("report.xml", new ValidationOptions { MetadataPath = "report-metadata.xml" });
@@ -211,6 +235,7 @@ src/
     BundledSchemas.cs       the bundled schema packages
     Rules/                  the rule engine and the built-in IRS rules
     Preflight/              the FATCA upload pre-flight
+    FfiList/                the GIIN check against the IRS FFI list (reader from FatcaFfiList)
     Schemas/                official IRS and OECD .xsd files, embedded in the assembly
   FatcaValidator.Cli/       the fatca-val command (System.CommandLine) and the report writers
 tests/

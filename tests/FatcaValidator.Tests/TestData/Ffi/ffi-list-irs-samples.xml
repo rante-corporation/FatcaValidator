@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written FFI list in the IRS's published format (no namespace), holding the GIINs of the IRS's sample FATCA
+     reports. Not an IRS file: the real list does not contain these sample GIINs. -->
+<IRSFFIList>
+  <FinancialInstitution>
+    <GIIN>S519K4.99999.SL.392</GIIN>
+    <FINm>BANK OF NN</FINm>
+    <CountryNm>JAPAN</CountryNm>
+  </FinancialInstitution>
+  <FinancialInstitution>
+    <GIIN>2IW3WK.00000.LE.152</GIIN>
+    <FINm>REPORTING FI NAME</FINm>
+    <CountryNm>CHILE</CountryNm>
+  </FinancialInstitution>
+  <FinancialInstitution>
+    <GIIN>2P2RBE.00000.SP.152</GIIN>
+    <FINm>REPORTING FI NAME</FINm>
+    <CountryNm>CHILE</CountryNm>
+  </FinancialInstitution>
+</IRSFFIList>

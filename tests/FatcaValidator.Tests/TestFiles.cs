@@ -24,6 +24,12 @@ internal static class TestFiles
     /// <summary>A hand-written FATCA test file, such as the IDES metadata for newnilfireport.xml.</summary>
     public static string Fatca(string name) => Path.Combine(AppContext.BaseDirectory, "TestData", "Fatca", name);
 
+    /// <summary>The IRS's example FFI list file (FFIListExample.xml).</summary>
+    public static string IrsFfiListExample => Path.Combine(AppContext.BaseDirectory, "TestData", "Irs", "FfiList", "FFIListExample.xml");
+
+    /// <summary>A hand-written FFI list test file.</summary>
+    public static string Ffi(string name) => Path.Combine(AppContext.BaseDirectory, "TestData", "Ffi", name);
+
     /// <summary>A file from the repository's examples/rules folder.</summary>
     public static string ExampleRules(string name) => Path.Combine(AppContext.BaseDirectory, "Examples", name);
 

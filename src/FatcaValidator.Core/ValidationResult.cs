@@ -41,6 +41,9 @@ public enum IssueSource
     /// <summary>The FATCA upload pre-flight (IDES checks).</summary>
     Preflight,
 
+    /// <summary>The GIIN check against the IRS FFI list.</summary>
+    FfiList,
+
     /// <summary>The validator itself: the file could not be checked, or a step was skipped.</summary>
     Validator,
 }
@@ -61,13 +64,13 @@ public sealed record ValidationIssue(
     IssueSource Source = IssueSource.Schema)
 {
     /// <summary>
-    /// Formats the issue as "Line 12, Position 6: message", or just the message when the position is not known. Rule and
-    /// pre-flight findings start with their code in brackets.
+    /// Formats the issue as "Line 12, Position 6: message", or just the message when the position is not known. Rule,
+    /// pre-flight and FFI list findings start with their code in brackets.
     /// </summary>
     public override string ToString()
     {
         string where = LineNumber > 0 ? $"Line {LineNumber}, Position {LinePosition}: " : "";
-        string code = Code is not null && Source is IssueSource.Rule or IssueSource.Preflight ? $"[{Code}] " : "";
+        string code = Code is not null && Source is IssueSource.Rule or IssueSource.Preflight or IssueSource.FfiList ? $"[{Code}] " : "";
         return where + code + Message;
     }
 }

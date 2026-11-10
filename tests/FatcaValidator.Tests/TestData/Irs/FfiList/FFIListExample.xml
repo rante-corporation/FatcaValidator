@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IRSFFIList xsi:schemaLocation="urn:us:gov:treasury:irs:fatcaffilist FATCA-FFILIST-1.0.xsd" xmlns="urn:us:gov:treasury:irs:fatcaffilist" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
+	<FinancialInstitution>
+		<GIIN>98Q96B.00000.LE.250</GIIN>
+		<FINm>Test Bank One</FINm>
+		<CountryNm>France</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00000.BR.826</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>United Kingdom </CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00000.BR.036</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>Australia</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00000.BR.076</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>Brazil</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00000.BR.818</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>Egypt</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00001.ME.276</GIIN>
+		<FINm>Test Bank Two</FINm>
+		<CountryNm>Germany</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>98Q96B.00001.BR.826</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>United Kingdom</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>8124H8.00000.SP.208</GIIN>
+		<FINm>Test Bank Three</FINm>
+		<CountryNm>Denmark</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>C54S47.99999.SL.276</GIIN>
+		<FINm>Test Bank Four</FINm>
+		<CountryNm>Germany</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>C54S47.99999.BR.208</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>Denmark</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>126BM7.00000.LE.826</GIIN>
+		<FINm>Test Bank Five</FINm>
+		<CountryNm>United Kingdom</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>126BM7.00000.BR.250</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>France</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>126BM7.00001.ME.208</GIIN>
+		<FINm>Test Bank Nine</FINm>
+		<CountryNm>Denmark</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>126BM7.00002.ME.276</GIIN>
+		<FINm>Test Bank Ten</FINm>
+		<CountryNm>Germany</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>126BM7.00002.BR.344</GIIN>
+		<FINm>Branch</FINm>
+		<CountryNm>Hong Kong</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>SE19K4.99999.SL.250</GIIN>
+		<FINm>Test Bank Eleven</FINm>
+		<CountryNm>France</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>76GHU9.00000.BR.036</GIIN>
+		<FINm>Branch</FINm>
+		 <CountryNm>Australia</CountryNm>
+	</FinancialInstitution>
+	<FinancialInstitution>
+		<GIIN>AAAAAA.00000.SP.001</GIIN> 
+  		<FINm>Test Bank, 150-character name1 23456-40 123456-50x123456-60x123456-70x123456-80x123456-90x12345-100 12345-110 12345-120 12345-130 12345-140 123456-150</FINm> 
+  		<CountryNm>Afghanistan</CountryNm> 
+  	</FinancialInstitution>
+	<FinancialInstitution>
+  		<GIIN>AAAAAA.00000.SP.002</GIIN> 
+  		<FINm>Test Bank, 150-character name2 (parenthesis) [square brackets] {curly brackets}-60x123456-70x123456-80x123456-90x12345-100 12-130 12345-140 123456-150</FINm> 
+  		<CountryNm>France</CountryNm> 
+  	</FinancialInstitution>
+	<FinancialInstitution>
+ 		<GIIN>AAAAAB.00000.SP.003</GIIN> 
+  		<FINm>Test Bank, 150-character name3 (3456-4) [23456-50x123456-60x123456-70x123456-80x123456-90x12345-10] {2345-11} 12345-120 12345-130 12345-140 123456-150</FINm> 
+		<CountryNm>Egypt</CountryNm>
+	</FinancialInstitution>
+</IRSFFIList>
