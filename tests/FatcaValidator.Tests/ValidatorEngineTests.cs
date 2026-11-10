@@ -53,6 +53,51 @@ public sealed class ValidatorEngineTests : IDisposable
         Assert.Contains(result.Errors, error => error.Message.Contains("SelfCert", StringComparison.Ordinal));
     }
 
+    [Theory]
+    [InlineData("ValidFileNotification_2.5.xml", "FATCA Valid File Notification v2.5 (IRS)")]
+    [InlineData("RecordLevelErrorNotification_2.5.xml", "FATCA Valid File Notification v2.5 (IRS)")]
+    [InlineData("FieldLevelErrorNotification_2.5.xml", "FATCA Valid File Notification v2.5 (IRS)")]
+    [InlineData("FileErrorNotificationSample_2.5.xml", "FATCA File Error Notification v2.5 (IRS)")]
+    public void IrsSampleNotifications_AreValidAgainstTheBundledNotificationSchemas(string sample, string schema)
+    {
+        ValidationResult result = _engine.Validate(TestFiles.IrsNotification(sample));
+
+        Assert.True(result.IsValid, Describe(result));
+        Assert.Equal(schema, result.Schema);
+    }
+
+    [Theory]
+    [InlineData("CARF_OECD", "urn:oecd:ties:carf:v1", "CARF XML Schema v1.5 (OECD)")]
+    [InlineData("CBC_OECD", "urn:oecd:ties:cbc:v2", "CbC XML Schema v2.0 (OECD)")]
+    [InlineData("CRSStatusMessage_OECD", "urn:oecd:ties:csm:v2", "CRS Status Message XML Schema v2.0 (OECD)")]
+    [InlineData("CbCStatusMessage_OECD", "urn:oecd:ties:cbcstm:v2", "CbC Status Message XML Schema v2.0 (OECD)")]
+    [InlineData("GenericStatusMessage_OECD", "urn:oecd:ties:gsm:v1", "Generic Status Message XML Schema v2.0 (OECD)")]
+    [InlineData("ETR_OECD", "urn:oecd:ties:etr:v2", "ETR XML Schema v2.0 (OECD)")]
+    [InlineData("ETR_OECD", "urn:oecd:ties:etr:v3", "ETR XML Schema v3.0 (OECD)")]
+    [InlineData("ETRStatusMessage_OECD", "urn:oecd:ties:etrstm:v2", "ETR Status Message XML Schema v2.0 (OECD)")]
+    [InlineData("MDR_OECD", "urn:oecd:ties:mdr:v1", "MDR XML Schema v1.0 (OECD)")]
+    [InlineData("NTJ_OECD", "urn:oecd:ties:ntj:v1", "NTJ XML Schema v1.0 (OECD)")]
+    [InlineData("STF_OECD", "urn:oecd:ties:stf:v2.2", "STF XML Schema v2.2 (OECD)")]
+    public void OecdFormats_AreRecognizedAndCheckedAgainstTheirOwnSchema(string root, string ns, string schema)
+    {
+        string path = _temp.Write("empty.xml", $"<{root} xmlns=\"{ns}\"/>");
+
+        ValidationResult result = _engine.Validate(path);
+
+        Assert.Equal(schema, result.Schema);
+        Assert.Equal(ValidationStatus.Invalid, result.Status);   // an empty message misses its required content
+        Assert.Contains(result.Errors, error => error.Code == IssueCodes.SchemaError);
+    }
+
+    [Fact]
+    public void SenderMetadata_IsValidAgainstTheBundledMetadataSchema()
+    {
+        ValidationResult result = _engine.Validate(TestFiles.Fatca("newnilfireport-metadata.xml"));
+
+        Assert.True(result.IsValid, Describe(result));
+        Assert.Equal(BundledSchemas.FatcaSenderMetadataV1_3.Name, result.Schema);
+    }
+
     [Fact]
     public void BundledPackages_CompileAndDeclareTheirRootElements()
     {

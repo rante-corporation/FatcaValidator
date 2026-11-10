@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by Germany Helm (Bundesamt für Finanzen) -->
+<!-- 27.09.03: This is the corrected version according to amendments in the annotation proposed by Stewart Weston-Lewis -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:simpleType name="oecdLegalType_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The OECD code describing the legal status of the party:
+			01 Individual  
+			02 Corporation  
+			03 Partnership  
+			04 Business organisation other than corporation or partnership  
+			05 Government or international organisation  
+			06 Other (specify in the 'OtherInfo' element)  
+			07 Unknown 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="01"/>
+			<xsd:enumeration value="02"/>
+			<xsd:enumeration value="03"/>
+			<xsd:enumeration value="04"/>
+			<xsd:enumeration value="05"/>
+			<xsd:enumeration value="06"/>
+			<xsd:enumeration value="07"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OECDPaymentType_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The OECD code describing the nature of the payments:
+			06 Income from immovable property  
+			07 Business profits  
+			10 Dividends  
+			11 Interest  
+			12 Royalties  
+			13 Capital Gains  
+			14 Income from independent personal services  
+			15 Income from dependent personal services  
+			15a Gross amount (including fringe benefits)  
+			15b Money amount only but additional information on fringe benefits to follow in fillers according to bilateral agreements  
+			15c Money amount only  
+			16 Directors' fees  
+			17 Income derived from activities of an artist or sportsman  
+			18 Pensions  
+			19 Income from government services and public pensions  
+			20 Payments to students for education and training  
+			21 Other income  
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="06"/>
+			<xsd:enumeration value="07"/>
+			<xsd:enumeration value="10"/>
+			<xsd:enumeration value="11"/>
+			<xsd:enumeration value="12"/>
+			<xsd:enumeration value="13"/>
+			<xsd:enumeration value="14"/>
+			<xsd:enumeration value="15"/>
+			<xsd:enumeration value="15a"/>
+			<xsd:enumeration value="15b"/>
+			<xsd:enumeration value="15c"/>
+			<xsd:enumeration value="16"/>
+			<xsd:enumeration value="17"/>
+			<xsd:enumeration value="18"/>
+			<xsd:enumeration value="19"/>
+			<xsd:enumeration value="20"/>
+			<xsd:enumeration value="21"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

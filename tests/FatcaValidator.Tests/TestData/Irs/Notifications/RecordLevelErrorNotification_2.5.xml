@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns3:FATCAValidFileNotification xmlns="urn:fatca:fatcanotificationbase" xmlns:ns2="urn:fatca:fatcapaperrecorderrornotification" xmlns:ns3="urn:fatca:fatcavalidfilenotification" xmlns:ns4="urn:fatca:fatcafileerrornotification" version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+	<FATCANotificationHeaderGrp>
+		<FATCANotificationCreateTs>2017-01-23T20:12:17Z</FATCANotificationCreateTs>
+		<FATCANotificationRefId>306</FATCANotificationRefId>
+		<FATCANotificationCd>NVF</FATCANotificationCd>
+		<FATCAEntitySenderId>000000.00000.TA.840</FATCAEntitySenderId>
+		<FATCAEntityReceiverId>528L2G.00000.BR.152</FATCAEntityReceiverId>
+		<ContactInformationTxt>http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</ContactInformationTxt>
+	</FATCANotificationHeaderGrp>
+	<OriginalFileMetadataGrp>
+		<IDESTransmissionId>a32be902284a41c593096a80633f0b94</IDESTransmissionId>
+		<IDESSendingTs>2017-01-22T20:08:18.18Z</IDESSendingTs>
+		<SenderFileId>20141210T004725848Z_528L2G.00000.BR.152.zip</SenderFileId>
+	</OriginalFileMetadataGrp>
+	<OriginalFileMessageSpecGrp>
+		<MessageRefId>EK9AMD70722-1</MessageRefId>
+		<SendingCompanyGIIN>528L2G.00000.BR.152</SendingCompanyGIIN>
+		<TransmittingCountryCd>CL</TransmittingCountryCd>
+		<ReceivingCountryCd>US</ReceivingCountryCd>
+		<MessageTypeCd>FATCA</MessageTypeCd>
+		<ReportingPeriodDt>2017-12-31Z</ReportingPeriodDt>
+	</OriginalFileMessageSpecGrp>
+	<NotificationContentTxt>The IRS has determined that the referenced file is in a valid format. Individual records submitted within the file have been processed and any errors detected during processing are provided in the Error Details included.
+For more information about record level errors, including their classification under an intergovernmental agreement (IGA), see: http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</NotificationContentTxt>
+	<OriginalFileProcessingDataGrp>
+		<FileTypeCd>NEW</FileTypeCd>
+		<FinancialInstitutionCnt>1</FinancialInstitutionCnt>
+		<RecordCnt>1</RecordCnt>
+		<DupAccountReportRecordCnt>0</DupAccountReportRecordCnt>
+		<NonDupAccountReportRecordCnt>0</NonDupAccountReportRecordCnt>
+		<PooledReportRecordCnt>1</PooledReportRecordCnt>
+	</OriginalFileProcessingDataGrp>
+	<HCTATreatyStampTxt>This information is furnished under the provisions of an income tax treaty, tax information exchange agreement (TIEA), or other agreement for the exchange of information with a foreign government, and its use and disclosure must be governed by the provisions of that treaty, TIEA, or other agreement.</HCTATreatyStampTxt>
+	<ns3:FATCARecordErrorGrp>
+		<RecordErrorInfoHeaderTxt>Record level error details from the file submitted are provided and are organized by financial institution.</RecordErrorInfoHeaderTxt>
+		<ns3:FATCARecordErrorFIGrp>
+			<ReportingFIGIIN>528L2G.00000.BR.152</ReportingFIGIIN>
+			<ReportingFINm>The BIG Chilialn BANK</ReportingFINm>
+			<ns3:FATCARecordErrorDetailGrp>
+				<FATCAReportTypeCd>ACCOUNT_REPORT</FATCAReportTypeCd>
+				<DocTypeIndicCd>FATCA1</DocTypeIndicCd>
+				<DocRefId>528L2G.00000.BR.152.DocRefIdEK9AMD70722-6</DocRefId>
+				<CorrMessageRefId>EK70722-1</CorrMessageRefId>
+				<CorrDocRefId>528L2G.00000.BR.152.DocRefIdEK70722-6</CorrDocRefId>
+				<RecordLevelErrorCd>8021</RecordLevelErrorCd>
+				<ActionRequestedGrp>
+					<ActionRequestedTxt>Your file contains a report with an invalid DocRefID format. You should NOT attempt to amend, correct, or void the record as the record was not processed. Please re-submit the record in a new file with valid, non-duplicative DocRefIDs following the DocRefID formatting rules in the current FATCA XML Schema User Guide. These rules are designed to ensure uniqueness of DocRefIDs across all filers. Note that this message could apply to more than one DocRefID in the record. Please verify that all DocRefIDs included under the ReportingFI, Intermediary, Sponsor, and Reporting Group elements are checked for valid formatting. </ActionRequestedTxt>
+					<ActionRequestedDueDateTxt>Correct the errors within 120 days of the date of this notice.</ActionRequestedDueDateTxt>
+				</ActionRequestedGrp>
+			</ns3:FATCARecordErrorDetailGrp>
+		</ns3:FATCARecordErrorFIGrp>
+		<PotentialEffectTxt>Failure to correct errors by the date required may result in a determination by the IRS that the Financial Institution has defaulted under its FFI Agreement and/or is in Significant Non-Compliance with the terms of the IGA.</PotentialEffectTxt>
+	</ns3:FATCARecordErrorGrp>
+</ns3:FATCAValidFileNotification>

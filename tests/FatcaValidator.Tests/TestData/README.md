@@ -15,6 +15,23 @@ of them to produce invalid reports.
 | `2014_2IW3WK.00000.LE.152.xml` | in https://www.irs.gov/pub/fatca/optional_elements_v2.0.zip | `4c6c5b5eb07ea9e006e762d17ac762e7c61919941aa97e89e70626a92fae0055` |
 | `2016_2IW3WK.00000.LE.152.xml` | in https://www.irs.gov/pub/fatca/optional_elements_v2.0.zip | `7fab59587d890cb1edf411f670edc2a0ac994c40a51099918b0356930074947a` |
 
+### `Irs/Notifications/`: IRS sample notifications (official, unchanged)
+
+The four samples in the IRS's FATCA Notification XML v2.5 package
+(https://www.irs.gov/pub/fatca/FATCA%20NOTIFICATION%20XML%20LIBRARY%20V2_5.zip, downloaded 2026-11-10).
+
+| File | SHA-256 |
+|---|---|
+| `FieldLevelErrorNotification_2.5.xml` | `0226b4e6a8a98ff60397440e9389b8d24cd724a0321c7ec983d1449ae975e3a3` |
+| `FileErrorNotificationSample_2.5.xml` | `9c1ee3984ca63f15508dd8615579d5308a7d51cf688ab4cd83db14d52dd5aeac` |
+| `RecordLevelErrorNotification_2.5.xml` | `8814f11d31341f1d00e7611219bc8c60d8e9592f66e5e840a1f94d1660fd671c` |
+| `ValidFileNotification_2.5.xml` | `2d617fdf6b17762e662e44dfcfee19d194685199f9656c2283fc10f4ec7929aa` |
+
+## `Fatca/`: hand-written FATCA files
+
+`newnilfireport-metadata.xml` is IDES sender metadata (v1.3) for the IRS sample `newnilfireport.xml`, written for the
+pre-flight tests; it is not an IRS sample.
+
 ## `Crs/`: hand-written CRS reports
 
 `crs-v2-individual-account.xml` (CRS XML v2.0) and `crs-v3-individual-account.xml` (CRS XML v3.0) were

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns2:FATCAValidFileNotification version="2.5" xmlns:ns4="urn:fatca:fatcafileerrornotification" xmlns:ns3="urn:fatca:fatcapaperrecorderrornotification" xmlns:ns2="urn:fatca:fatcavalidfilenotification" xmlns="urn:fatca:fatcanotificationbase">
+	<FATCANotificationHeaderGrp>
+		<FATCANotificationCreateTs>2018-01-22T11:44:17Z</FATCANotificationCreateTs>
+		<FATCANotificationRefId>247</FATCANotificationRefId>
+		<FATCANotificationCd>NVF</FATCANotificationCd>
+		<FATCAEntitySenderId>000000.00000.TA.840</FATCAEntitySenderId>
+		<FATCAEntityReceiverId>ABEBBA.99999.SL.756</FATCAEntityReceiverId>
+		<ContactInformationTxt>http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</ContactInformationTxt>
+	</FATCANotificationHeaderGrp>
+	<OriginalFileMetadataGrp>
+		<IDESTransmissionId>060FZp24O6EdhuqtB1k66sCcx0kM56EX</IDESTransmissionId>
+		<IDESSendingTs>2018-01-22T11:38:18.018Z</IDESSendingTs>
+		<SenderFileId> 20180122T004725848Z_ABEBBA.99999.SL.756.zip </SenderFileId>
+	</OriginalFileMetadataGrp>
+	<OriginalFileMessageSpecGrp>
+		<MessageRefId>1PLDzAM1zzWDRLJuly13</MessageRefId>
+		<SendingCompanyGIIN>ABEBBA.99999.SL.756</SendingCompanyGIIN>
+		<TransmittingCountryCd>CH</TransmittingCountryCd>
+		<ReceivingCountryCd>US</ReceivingCountryCd>
+		<MessageTypeCd>FATCA</MessageTypeCd>
+		<ReportingPeriodDt>2017-12-31Z</ReportingPeriodDt>
+	</OriginalFileMessageSpecGrp>
+	<NotificationContentTxt>The IRS has determined that the referenced file is in a valid format. Individual records submitted within the file have been processed and any errors detected during processing are provided in the Error Details included. For more information about record level errors, including their classification under an intergovernmental agreement (IGA), see: http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications </NotificationContentTxt>
+	<OriginalFileProcessingDataGrp>
+		<FileTypeCd>NEW</FileTypeCd>
+		<FinancialInstitutionCnt>1</FinancialInstitutionCnt>
+		<RecordCnt>5</RecordCnt>
+		<DupAccountReportRecordCnt>0</DupAccountReportRecordCnt>
+		<NonDupAccountReportRecordCnt>0</NonDupAccountReportRecordCnt>
+		<PooledReportRecordCnt>5</PooledReportRecordCnt>
+	</OriginalFileProcessingDataGrp>
+	<HCTATreatyStampTxt>This information is furnished under the provisions of an income tax treaty, tax information exchange agreement (TIEA), or other agreement for the exchange of information with a foreign government, and its use and disclosure must be governed by the provisions of that treaty, TIEA, or other agreement.</HCTATreatyStampTxt>
+	<ns2:FATCARecordErrorGrp>
+		<RecordErrorInfoHeaderTxt>Record level error details from the file submitted are provided and are organized by financial institution.</RecordErrorInfoHeaderTxt>
+		<ns2:FATCARecordErrorFIGrp>
+			<ReportingFIGIIN>ABEBBA.99999.SL.756</ReportingFIGIIN>
+			<ReportingFINm>Union Asset Management Incorporated</ReportingFINm>
+			<ns2:FATCARecordErrorDetailGrp>
+				<FATCAReportTypeCd>ACCOUNT_REPORT</FATCAReportTypeCd>
+				<DocTypeIndicCd>FATCA1</DocTypeIndicCd>
+				<DocRefId>ABEBBA.99999.SL.756.1PLDAM3WsRDLDsocJuly1301</DocRefId>
+				<RecordLevelErrorCd>8007</RecordLevelErrorCd>
+				<FieldErrorGrp>
+					<FieldNm>ReportingGroup/AccountReport/AccountHolder/Organisation/Name; ReportingGroup/AccountReport/AccountHolder/Individual/Name</FieldNm>
+					<FieldErrorTxt>Name of Account Holder or Recipient Not Provided</FieldErrorTxt>
+				</FieldErrorGrp>
+				<ActionRequestedGrp>
+					<ActionRequestedTxt>Your file contains a record with one or more errors that require correction.  Please correct all errors. Ensure the corrected record has both a CorrMessageRefID that matches the MessageRefID for the original file submitted to the IRS and a CorrDocRefID that matches the DocRefId for the original record submitted to the IRS and post the file with corrected records to IDES. If the record has an error in the Reporting FI GIIN, the original record must be voided and a new record submitted to correct the GIIN.  If this is a corrected, amended, voided, or CAR-response record, you should not attempt to correct this failed record, instead, submit a new correct, amend, void, or CAR-response record.</ActionRequestedTxt>
+					<ActionRequestedDueDateTxt>Correct the errors within 120 days of the date of this notice.</ActionRequestedDueDateTxt>
+				</ActionRequestedGrp>
+			</ns2:FATCARecordErrorDetailGrp>
+		</ns2:FATCARecordErrorFIGrp>
+		<PotentialEffectTxt>Failure to correct errors by the date required may result in a determination by the IRS that the Financial Institution has defaulted under its FFI Agreement and/or is in Significant Non-Compliance with the terms of the IGA.</PotentialEffectTxt>
+	</ns2:FATCARecordErrorGrp>
+</ns2:FATCAValidFileNotification>

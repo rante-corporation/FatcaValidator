@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="urn:fatca:fatcavalidfilenotification" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:fnb="urn:fatca:fatcanotificationbase" targetNamespace="urn:fatca:fatcavalidfilenotification" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.5">
+	<xsd:annotation>
+		<xsd:appinfo>
+			<release>2.5</release>
+		</xsd:appinfo>
+		<xsd:documentation>
+			<Component>
+				<DictionaryEntryNm>Schema Components for FATCA Valid File Notifications</DictionaryEntryNm>
+				<MajorVersionNum>2</MajorVersionNum>
+				<MinorVersionNum>5</MinorVersionNum>
+				<VersionEffectiveBeginDt>2019-06-18</VersionEffectiveBeginDt>
+				<VersionDescriptionTxt>2.5</VersionDescriptionTxt>
+				<DescriptionTxt>Schema Components created for FATCA Valid File Notifications</DescriptionTxt>
+			</Component>
+		</xsd:documentation>
+	</xsd:annotation>
+	<!-- ================ -->
+	<!-- ===== Imports ===== -->
+	<!-- ================ -->
+	<xsd:import namespace="urn:fatca:fatcanotificationbase" schemaLocation="BASE-FATCA-NOTIFICATION-2.5.xsd"/>
+	<!-- ============================================================== -->
+	<!-- ===== Local Common Aggregate Component (CAC) Elements  ================ -->
+	<!-- ============================================================== -->
+	<xsd:element name="FATCAValidFileNotification" type="FATCAValidFileNotificationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>FATCA Notification for  Valid Files</DictionaryEntryNm>
+					<MajorVersionNum>2</MajorVersionNum>
+					<MinorVersionNum>5</MinorVersionNum>
+					<VersionEffectiveBeginDt>2019-06-18</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>2.5</VersionDescriptionTxt>
+					<DescriptionTxt>Contains the details of FATCA Notification for Valid Files </DescriptionTxt>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="FATCARecordErrorGrp" type="FATCARecordErrorGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Record Level Error Group</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-12-19</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<DescriptionTxt>Contains the Record Error Group</DescriptionTxt>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="FATCARecordErrorFIGrp" type="FATCARecordErrorFIGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Record Error FI Group</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-08-12</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<DescriptionTxt>Contains the Record Errors FI Group</DescriptionTxt>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="FATCARecordErrorDetailGrp" type="FATCARecordErrorDetailGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Record Error Details</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-08-12</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<DescriptionTxt>Contains the Record Error Details</DescriptionTxt>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<!-- ========================================================================= -->
+	<!-- ===== Local Common Aggregate Component (CAC) Complex Type Definitions ================ -->
+	<!-- =========================================================================  -->
+	<xsd:complexType name="FATCAValidFileNotificationType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Type for FATCA Notification for  Valid Files</DictionaryEntryNm>
+					<MajorVersionNum>2</MajorVersionNum>
+					<MinorVersionNum>5</MinorVersionNum>
+					<VersionEffectiveBeginDt>2019-06-18</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>2.5</VersionDescriptionTxt>
+					<Description>Contains the type details of FATCA Notification for Valid Files (i.e. schema validated files)</Description>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="fnb:FATCANotificationHeaderGrp"/>
+			<xsd:element ref="fnb:OriginalFileMetadataGrp"/>
+			<xsd:element ref="fnb:OriginalFileMessageSpecGrp"/>
+			<xsd:element ref="fnb:NotificationContentTxt"/>
+			<xsd:element ref="fnb:OriginalFileProcessingDataGrp"/>
+			<xsd:element ref="fnb:HCTATreatyStampTxt" minOccurs="0"/>
+			<xsd:element ref="FATCARecordErrorGrp" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" fixed="2.5">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">Notification Schema Version</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="FATCARecordErrorGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Type for Record Error Group</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-12-19</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<Description>Contains the type details of Record Error Group</Description>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="fnb:RecordErrorInfoHeaderTxt"/>
+			<xsd:element ref="FATCARecordErrorFIGrp" minOccurs="1" maxOccurs="unbounded"/>
+			<xsd:element ref="fnb:PotentialEffectTxt"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FATCARecordErrorFIGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Type for Record Error FI Group</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-08-12</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<Description>Contains the type details of Record Error FI Group</Description>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="fnb:SponsorGIIN" minOccurs="0"/>
+			<xsd:element ref="fnb:SponsorNm" minOccurs="0"/>
+			<xsd:element ref="fnb:ReportingFIGIIN" minOccurs="0"/>
+			<xsd:element ref="fnb:ReportingFINm" minOccurs="0"/>
+			<xsd:element ref="FATCARecordErrorDetailGrp" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FATCARecordErrorDetailGrpType">
+		<xsd:annotation>
+			<xsd:documentation>
+				<Component>
+					<DictionaryEntryNm>Type for Record Error (Pooled Report or Account Report) Details</DictionaryEntryNm>
+					<MajorVersionNum>1</MajorVersionNum>
+					<MinorVersionNum>0</MinorVersionNum>
+					<VersionEffectiveBeginDt>2014-08-12</VersionEffectiveBeginDt>
+					<VersionDescriptionTxt>Initial Version</VersionDescriptionTxt>
+					<Description>Contains the type details of Record Errors</Description>
+				</Component>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="fnb:FATCAReportTypeCd"/>
+			<xsd:element ref="fnb:DocTypeIndicCd"/>
+			<xsd:element ref="fnb:DocRefId"/>
+			<xsd:element ref="fnb:CorrMessageRefId" minOccurs="0"/>
+			<xsd:element ref="fnb:CorrDocRefId" minOccurs="0"/>
+			<xsd:element ref="fnb:RecordLevelErrorCd"/>
+			<xsd:element ref="fnb:FieldErrorGrp" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="fnb:ActionRequestedGrp"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

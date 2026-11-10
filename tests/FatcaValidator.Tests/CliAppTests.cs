@@ -23,7 +23,7 @@ public sealed class CliAppTests : IDisposable
 
         Assert.Equal(ExitCodes.Valid, exitCode);
         Assert.Contains("Schema: FATCA XML Schema v2.0.1 (IRS)", output, StringComparison.Ordinal);
-        Assert.Contains("Result: VALID - no schema violations found.", output, StringComparison.Ordinal);
+        Assert.Contains("Result: VALID - no errors found.", output, StringComparison.Ordinal);
     }
 
     [Fact]

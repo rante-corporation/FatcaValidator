@@ -1,0 +1,60 @@
+{
+  // Built-in FATCA record checks that the upload pre-flight (--preflight) runs on FATCA XML v2 reports.
+  // Sources: the IRS pages on DocRefId and FATCA XML best practices, checked against the IRS's own sample reports.
+  "name": "IRS FATCA record checks",
+  "description": "DocRefId format and uniqueness, correction references and test data, from the IRS FATCA XML guidance.",
+  "appliesTo": [ "urn:oecd:ties:fatca:v2" ],
+  "namespaces": {
+    "ftc": "urn:oecd:ties:fatca:v2",
+    "sfa": "urn:oecd:ties:stffatcatypes:v2"
+  },
+  "rules": [
+    {
+      "id": "IRS-DOCREFID-LENGTH",
+      "severity": "error",
+      "reference": "https://www.irs.gov/businesses/corporations/fatca-xml-schemas-best-practices-for-form-8966-docrefid",
+      "context": "//ftc:DocSpec/ftc:DocRefId",
+      "assert": "string-length(.) >= 21 and string-length(.) <= 200",
+      "message": "DocRefId '{.}' is {string-length(.)} characters long; the IRS requires 21 to 200 (<ReportingGIIN>.<UniqueValue>)."
+    },
+    {
+      "id": "IRS-DOCREFID-CHARACTERS",
+      "severity": "error",
+      "reference": "https://www.irs.gov/businesses/corporations/fatca-xml-schemas-best-practices-for-form-8966-docrefid",
+      "context": "//ftc:DocSpec/ftc:DocRefId",
+      "assert": "fv:matches(., '^[A-Za-z0-9.-]*$')",
+      "message": "DocRefId '{.}' may only contain letters, digits, periods and dashes."
+    },
+    {
+      "id": "IRS-DOCREFID-GIIN",
+      "severity": "warning",
+      "reference": "https://www.irs.gov/businesses/corporations/fatca-xml-schemas-best-practices-for-form-8966-docrefid",
+      "context": "//ftc:FATCA//ftc:DocSpec/ftc:DocRefId",
+      "assert": "starts-with(., concat(ancestor::ftc:FATCA/ftc:ReportingFI/sfa:TIN[1], '.'))",
+      "message": "DocRefId '{.}' should start with the reporting FI's GIIN '{ancestor::ftc:FATCA/ftc:ReportingFI/sfa:TIN[1]}' and a period (<ReportingGIIN>.<UniqueValue>)."
+    },
+    {
+      "id": "IRS-DOCREFID-UNIQUE",
+      "severity": "error",
+      "reference": "https://www.irs.gov/businesses/corporations/fatca-xml-schemas-best-practices-for-form-8966-docrefid",
+      "unique": "//ftc:DocSpec/ftc:DocRefId",
+      "message": "DocRefId '{.}' is used more than once in this file; every record needs its own."
+    },
+    {
+      "id": "IRS-CORRDOCREFID-REQUIRED",
+      "severity": "error",
+      "description": "Corrected (FATCA2/12), void (FATCA3/13) and amended (FATCA4/14) records must say which record they change.",
+      "context": "//ftc:DocSpec[ftc:DocTypeIndic = 'FATCA2' or ftc:DocTypeIndic = 'FATCA3' or ftc:DocTypeIndic = 'FATCA4' or ftc:DocTypeIndic = 'FATCA12' or ftc:DocTypeIndic = 'FATCA13' or ftc:DocTypeIndic = 'FATCA14']",
+      "assert": "normalize-space(ftc:CorrDocRefId) != ''",
+      "message": "DocTypeIndic {ftc:DocTypeIndic} corrects, voids or amends a record, so this DocSpec needs the CorrDocRefId of that record."
+    },
+    {
+      "id": "IRS-TEST-DATA",
+      "severity": "warning",
+      "description": "FATCA11 to FATCA14 mark test data. Reported once per file.",
+      "context": "(//ftc:DocSpec/ftc:DocTypeIndic[. = 'FATCA11' or . = 'FATCA12' or . = 'FATCA13' or . = 'FATCA14'])[1]",
+      "assert": "false()",
+      "message": "DocTypeIndic {.} marks test data. Check that this file is meant for a test transmission, not for production."
+    }
+  ]
+}

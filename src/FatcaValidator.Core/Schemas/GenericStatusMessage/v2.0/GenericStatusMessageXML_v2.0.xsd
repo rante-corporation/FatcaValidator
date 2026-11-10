@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 rel. 2 (x64) (http://www.altova.com) by Parker Hart (OECD) -->
+<xsd:schema xmlns:gsm="urn:oecd:ties:gsm:v1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:iso="urn:oecd:ties:gsm:isogsmtypes:v1" targetNamespace="urn:oecd:ties:gsm:v1" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xsd:import namespace="urn:oecd:ties:gsm:isogsmtypes:v1" schemaLocation="isogsmtypes_v1.0.xsd"/>
+	<!-- -->
+	<!--+++++++++++++++++++++++  String lenght types ++++++++++++++++++++++++++++++++++++++ -->
+	<!-- -->
+	<!-- Defines a string with minimum length 1 and maximum length of 10 -->
+	<xsd:simpleType name="StringMin1Max10_Type">
+		<xsd:annotation>
+			<xsd:documentation>Defines a string with minimum length 1 and maximum length of 10</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!-- Defines a string with minimum length 1 and maximum length of 170 -->
+	<xsd:simpleType name="StringMin1Max170_Type">
+		<xsd:annotation>
+			<xsd:documentation>Defines a string with minimum length 1 and maximum length of 170</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="170"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!-- Defines a string with minimum length 1 and maximum length of 200 -->
+	<xsd:simpleType name="StringMin1Max200_Type">
+		<xsd:annotation>
+			<xsd:documentation>Defines a string with minimum length 1 and maximum length of 200</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="200"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!-- Defines a string with minimum length 1 and maximum length of 400 -->
+	<xsd:simpleType name="StringMin1Max400_Type">
+		<xsd:annotation>
+			<xsd:documentation>Defines a string with minimum length 1 and maximum length of 400</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="400"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!-- Defines a string with minimum length 1 and maximum length of 4000 -->
+	<xsd:simpleType name="StringMin1Max4000_Type">
+		<xsd:annotation>
+			<xsd:documentation>Defines a string with minimum length 1 and maximum length of 4000</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="4000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!--+++++++++++++++++++++++  Reusable Simple types ++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Message type definitions -->
+	<xsd:simpleType name="MessageType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Message type defines the type of reporting</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CRSStatus">
+				<xsd:annotation>
+					<xsd:documentation>CRS Status Message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CBCStatus">
+				<xsd:annotation>
+					<xsd:documentation>CbC Status Message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETRStatus">
+				<xsd:annotation>
+					<xsd:documentation>ETR Status Message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DTCAEOIStatus">
+				<xsd:annotation>
+					<xsd:documentation>DTC AEOI Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="MDRStatus">
+				<xsd:annotation>
+					<xsd:documentation>MDR Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="NTJStatus">
+				<xsd:annotation>
+					<xsd:documentation>FHTP NoNom exchanges Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CDQStatus">
+				<xsd:annotation>
+					<xsd:documentation>CRS Data Quality Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="DPIStatus">
+				<xsd:annotation>
+					<xsd:documentation>Model Reporting Rules for Digital Platforms Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRFreeDTStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR free format - Direct Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRFreeITStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR free format - Indirect Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRFreeTCRStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR free format - Tax collection and recovery Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRStructDTStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR structured format (e-forms) - Direct Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRStructITStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR structured format (e-forms) - Indirect Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EOIRStructTCRStatus">
+				<xsd:annotation>
+					<xsd:documentation>EOIR structured format (e-forms) - Tax collection and recovery Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponFreeDTStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges free format - Direct Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponFreeITStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges free format - Indirect Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponFreeTCRStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges free format - Tax collection and recovery Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponStructDTStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges structured format (e-forms) - Direct Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponStructITStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges structured format (e-forms) - Indirect Tax Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SponStructTCRStatus">
+				<xsd:annotation>
+					<xsd:documentation>Spontaneous exchanges structured format (e-forms) - Tax collection and recovery Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="JointAuditsStatus">
+				<xsd:annotation>
+					<xsd:documentation>Joint Audits Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="JITSICStatus">
+				<xsd:annotation>
+					<xsd:documentation>JITSIC Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="MAPStatus">
+				<xsd:annotation>
+					<xsd:documentation>MAP Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TRACEStatus">
+				<xsd:annotation>
+					<xsd:documentation>TRACE Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="OtherStatus">
+				<xsd:annotation>
+					<xsd:documentation>Other exchanges under international tax agreements Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- FileAcceptanceStatus -->
+	<xsd:simpleType name="FileAcceptanceStatus_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">File acceptance status: if the file was accepted or rejected by the receiver</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Accepted">
+				<xsd:annotation>
+					<xsd:documentation>The file was accepted by the receiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Rejected">
+				<xsd:annotation>
+					<xsd:documentation>The file was rejected by the receiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!--++++++++++++++++++ Reusable Complex types +++++++++++++++++++++++++++++++++++++ -->
+	<!-- Message specification: Data identifying and describing the message as a whole -->
+	<xsd:complexType name="MessageSpec_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Information in the message header identifies the Tax Administration that is sending the message.  It specifies when the message was created, what period (normally a year) the report is for, and the nature of the report (original, corrected, supplemental, etc).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SendingCompanyIN" type="gsm:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="TransmittingCountry" type="iso:CountryCode_Type"/>
+			<xsd:element name="ReceivingCountry" type="iso:CountryCode_Type"/>
+			<xsd:element name="MessageType" type="gsm:MessageType_EnumType"/>
+			<xsd:element name="Warning" type="gsm:StringMin1Max4000_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Free text expressing the restrictions for use of the information this
+message contains and the legal framework under which it is given</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Contact" type="gsm:StringMin1Max4000_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">All necessary contact information about persons responsible for and
+involved in the processing of the data transmitted in this message, both legally and technically. Free text as this is not
+intended for automatic processing. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MessageRefId" type="gsm:StringMin1Max170_Type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Unique identifier for this Generic Status message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Timestamp" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Record Error type   -->
+	<xsd:complexType name="RecordError_Type">
+		<xsd:sequence>
+			<xsd:element name="Code" type="gsm:StringMin1Max10_Type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Error Code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Details" type="gsm:ErrorDetail_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Error Details</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DocRefIDInError" type="gsm:StringMin1Max200_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">DocRefID of the record causing the error</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FieldsInError" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Information on the fields causing the error</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="FieldPath" type="gsm:StringMin1Max400_Type"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- File Error type   -->
+	<xsd:complexType name="FileError_Type">
+		<xsd:sequence>
+			<xsd:element name="Code" type="gsm:StringMin1Max10_Type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Error Code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Details" type="gsm:ErrorDetail_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Error Details</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Error Detail Type -->
+	<xsd:complexType name="ErrorDetail_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Error message provide more details about the error</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="gsm:StringMin1Max4000_Type">
+				<xsd:attribute name="Language" type="iso:LanguageCode_Type"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!--  -->
+	<!-- File Meta Data type   -->
+	<xsd:complexType name="FileMetaData_Type">
+		<xsd:sequence>
+			<xsd:element name="CTSTransmissionID" type="gsm:StringMin1Max200_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">CTS Transmission ID assigned to the original transmission by CTS when it was initially received</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CTSSendingTimeStamp" type="xsd:dateTime" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The date and time the original transmission was initially delivered to the Receiver by CTS</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="UncompressedFileSizeKBQty" type="xsd:integer" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Uncompressed File size (KB)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Original Message Type -->
+	<xsd:complexType name="OriginalMessage_Type">
+		<xsd:sequence>
+			<xsd:element name="OriginalMessageRefID" type="gsm:StringMin1Max170_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The MessageRefID of the original CbC message for which the Status Message is provided</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FileMetaData" type="gsm:FileMetaData_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Validation Errors Type -->
+	<xsd:complexType name="ValidationErrors_Type">
+		<xsd:sequence>
+			<xsd:element name="FileError" type="gsm:FileError_Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RecordError" type="gsm:RecordError_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Validation Result Type -->
+	<xsd:complexType name="ValidationResult_Type">
+		<xsd:sequence>
+			<xsd:element name="Status" type="gsm:FileAcceptanceStatus_EnumType">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Indicate if the file was accepted or rejected by the receiver</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ValidatedBy" type="gsm:StringMin1Max400_Type" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Indicate the version of the validation tool that was used to generate this Status Message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Generic Status Message Type -->
+	<xsd:complexType name="GenericMessageStatus_Type">
+		<xsd:sequence>
+			<xsd:element name="OriginalMessage" type="gsm:OriginalMessage_Type"/>
+			<xsd:element name="ValidationErrors" type="gsm:ValidationErrors_Type"/>
+			<xsd:element name="ValidationResult" type="gsm:ValidationResult_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Schema  element ++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- -->
+	<!-- Generic Status Message structure  -->
+	<xsd:element name="GenericStatusMessage_OECD">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MessageSpec" type="gsm:MessageSpec_Type"/>
+				<xsd:element name="GenericStatusMessage" type="gsm:GenericMessageStatus_Type"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="gsm:StringMin1Max10_Type" fixed="2.0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Generic Status Message Version</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- -->
+</xsd:schema>

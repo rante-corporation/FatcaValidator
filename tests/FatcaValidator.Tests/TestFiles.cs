@@ -17,6 +17,28 @@ internal static class TestFiles
 
     /// <summary>The main FATCA v2.0.1 schema file.</summary>
     public static string FatcaSchema => Path.Combine(AppContext.BaseDirectory, "Schemas", "Fatca", "v2.0.1", "FatcaXML_v2.0.1.xsd");
+
+    /// <summary>An IRS sample notification (FATCA Notification XML v2.5).</summary>
+    public static string IrsNotification(string name) => Path.Combine(AppContext.BaseDirectory, "TestData", "Irs", "Notifications", name);
+
+    /// <summary>A hand-written FATCA test file, such as the IDES metadata for newnilfireport.xml.</summary>
+    public static string Fatca(string name) => Path.Combine(AppContext.BaseDirectory, "TestData", "Fatca", name);
+
+    /// <summary>A file from the repository's examples/rules folder.</summary>
+    public static string ExampleRules(string name) => Path.Combine(AppContext.BaseDirectory, "Examples", name);
+
+    /// <summary>Writes a copy of an IRS sample report with text replacements, failing the test if a text is missing.</summary>
+    public static string WriteIrsVariant(TempFolder temp, string sample, params (string Find, string Replace)[] edits)
+    {
+        string text = File.ReadAllText(Irs(sample));
+        foreach ((string find, string replace) in edits)
+        {
+            Assert.Contains(find, text, StringComparison.Ordinal);
+            text = text.Replace(find, replace, StringComparison.Ordinal);
+        }
+
+        return temp.Write("variant-" + sample, text);
+    }
 }
 
 /// <summary>A temporary folder, deleted when the test ends.</summary>

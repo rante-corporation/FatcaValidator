@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<n1:FATCAFileErrorNotification xmlns="urn:fatca:fatcanotificationbase" xmlns:n1="urn:fatca:fatcafileerrornotification" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5">
+	<FATCANotificationHeaderGrp>
+		<FATCANotificationCreateTs>2018-01-10T00:10:00Z</FATCANotificationCreateTs>
+		<FATCANotificationRefId>125</FATCANotificationRefId>
+		<FATCANotificationCd>NCF</FATCANotificationCd>
+		<FATCAEntitySenderId>000000.00000.TA.840</FATCAEntitySenderId>
+		<FATCAEntityReceiverId>000000.00000.TA.124</FATCAEntityReceiverId>
+		<ContactInformationTxt>http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</ContactInformationTxt>
+	</FATCANotificationHeaderGrp>
+	<OriginalFileMetadataGrp>
+		<IDESTransmissionId>a7c6363de36f4c2192856b4d3283747c</IDESTransmissionId>
+		<IDESSendingTs>2018-01-10T00:00:00Z</IDESSendingTs>
+		<SenderFileId>20180110T000000000Z_000000.00000.TA.124.zip</SenderFileId>
+		<UncompressedFileSizeKBQty>100000</UncompressedFileSizeKBQty>
+	</OriginalFileMetadataGrp>
+	<NotificationContentTxt>The IRS could not download the referenced file that had been posted to IDES. Your certificate posted to IDES was not valid. Please do not submit a request to correct, amend or void any of the records in this file until you receive a notification that this file has been received as valid. For more information on this notification, please see: http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications
+</NotificationContentTxt>
+	<ActionRequestedGrp>
+		<ActionRequestedTxt>Please post an updated certificate and resubmit the file to IDES.</ActionRequestedTxt>
+		<ActionRequestedDueDateTxt>Your organization’s due date for filing Form 8966.</ActionRequestedDueDateTxt>
+	</ActionRequestedGrp>
+	<HCTATreatyStampTxt>This information is furnished under the provisions of an income tax treaty, tax information exchange agreement (TIEA), or other agreement for the exchange of information with a foreign government, and its use and disclosure must be governed by the provisions of that treaty, TIEA, or other agreement.</HCTATreatyStampTxt>
+</n1:FATCAFileErrorNotification>

@@ -24,6 +24,7 @@
   <ItemGroup>
     <None Update="TestData\**\*" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\FatcaValidator.Core\Schemas\**\*.xsd" Link="Schemas\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\examples\rules\*.json" Link="Examples\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

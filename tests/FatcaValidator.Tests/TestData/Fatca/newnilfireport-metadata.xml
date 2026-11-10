@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-written IDES sender metadata (v1.3) for the IRS sample report newnilfireport.xml; not an IRS sample. -->
+<FATCAIDESSenderFileMetadata xmlns="urn:fatca:idessenderfilemetadata">
+  <FATCAEntitySenderId>S519K4.99999.SL.392</FATCAEntitySenderId>
+  <FATCAEntityReceiverId>000000.00000.TA.840</FATCAEntityReceiverId>
+  <FATCAEntCommunicationTypeCd>RPT</FATCAEntCommunicationTypeCd>
+  <SenderFileId>20170117T093047000Z_S519K4.99999.SL.392.zip</SenderFileId>
+  <FileFormatCd>XML</FileFormatCd>
+  <BinaryEncodingSchemeCd>NONE</BinaryEncodingSchemeCd>
+  <FileCreateTs>2017-01-17T09:30:47Z</FileCreateTs>
+  <TaxYear>2016</TaxYear>
+  <FileRevisionInd>false</FileRevisionInd>
+</FATCAIDESSenderFileMetadata>

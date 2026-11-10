@@ -1,0 +1,43 @@
+{
+  // Example business rules for FATCA XML v2 reports. Copy this file and adapt it to your institution.
+  // Each rule's id is the error code fatca-val reports. Messages can quote values with {xpath}; they end up in reports
+  // and logs, so quote reference numbers rather than personal data. See docs/business-rules.md.
+  "name": "Example FATCA rules",
+  "description": "Examples of in-house checks on top of the schema and the IRS pre-flight.",
+  "appliesTo": "urn:oecd:ties:fatca:v2",
+  "namespaces": {
+    "ftc": "urn:oecd:ties:fatca:v2",
+    "sfa": "urn:oecd:ties:stffatcatypes:v2"
+  },
+  "rules": [
+    {
+      "id": "EX-US-TIN-FORMAT",
+      "severity": "error",
+      "description": "A US TIN of an individual (an SSN or ITIN) is 9 digits, written without dashes.",
+      "context": "//ftc:AccountHolder/ftc:Individual/sfa:TIN[@issuedBy = 'US']",
+      "assert": "fv:matches(., '^[0-9]{9}$')",
+      "message": "The US TIN of the holder of account {ancestor::ftc:AccountReport/ftc:AccountNumber} must be 9 digits."
+    },
+    {
+      "id": "EX-BALANCE-NOT-NEGATIVE",
+      "severity": "error",
+      "context": "//ftc:AccountReport/ftc:AccountBalance",
+      "assert": "number(.) >= 0",
+      "message": "Account {../ftc:AccountNumber} has a negative balance ({.} {@currCode}); report it as 0."
+    },
+    {
+      "id": "EX-ACCOUNT-ONCE",
+      "severity": "warning",
+      "unique": "//ftc:AccountReport/ftc:AccountNumber",
+      "message": "Account {.} is reported more than once in this file."
+    },
+    {
+      "id": "EX-USD-ONLY",
+      "severity": "warning",
+      "description": "An in-house convention, as an example: this institution reports balances in USD.",
+      "context": "//ftc:AccountReport/ftc:AccountBalance",
+      "assert": "@currCode = 'USD'",
+      "message": "Account {../ftc:AccountNumber} is reported in {@currCode}; our convention is USD."
+    }
+  ]
+}

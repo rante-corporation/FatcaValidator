@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:FATCAValidFileNotification xmlns="urn:fatca:fatcanotificationbase" xmlns:ns2="urn:fatca:fatcavalidfilenotification" xmlns:ns3="urn:fatca:fatcapaperrecorderrornotification" xmlns:ns4="urn:fatca:fatcafileerrornotification" version="2.5">
+  <FATCANotificationHeaderGrp>
+    <FATCANotificationCreateTs>2018-01-31T11:28:21Z</FATCANotificationCreateTs>
+    <FATCANotificationRefId>372</FATCANotificationRefId>
+    <FATCANotificationCd>NVF</FATCANotificationCd>
+    <FATCAEntitySenderId>000000.00000.TA.840</FATCAEntitySenderId>
+    <FATCAEntityReceiverId>ABEBBA.99999.SL.756</FATCAEntityReceiverId>
+    <ContactInformationTxt>http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</ContactInformationTxt>
+  </FATCANotificationHeaderGrp>
+  <OriginalFileMetadataGrp>
+    <IDESTransmissionId>7a627fec4aec4a2d8397ec836eea783c</IDESTransmissionId>
+    <IDESSendingTs>2018-01-31T11:21:17.017Z</IDESSendingTs>
+    <SenderFileId>20180131T004725848Z_ABEBBA.99999.SL.756.zip</SenderFileId>
+  </OriginalFileMetadataGrp>
+  <OriginalFileMessageSpecGrp>
+    <MessageRefId>5PLDCARJune10AP2DB</MessageRefId>
+    <SendingCompanyGIIN>ABEBBA.99999.SL.756</SendingCompanyGIIN>
+    <TransmittingCountryCd>CH</TransmittingCountryCd>
+    <ReceivingCountryCd>US</ReceivingCountryCd>
+    <MessageTypeCd>FATCA</MessageTypeCd>
+    <ReportingPeriodDt>2017-12-31Z</ReportingPeriodDt>
+  </OriginalFileMessageSpecGrp>
+  <NotificationContentTxt>The IRS has determined that the referenced file is in a valid format. Individual records submitted within the file have been processed and any errors detected during processing are provided in the Error Details included.
+For more information about record level errors, including their classification under an intergovernmental agreement (IGA), see: http://www.irs.gov/Businesses/Corporations/FATCA-Error-Notifications</NotificationContentTxt>
+  <OriginalFileProcessingDataGrp>
+    <FileTypeCd>NEW</FileTypeCd>
+    <FinancialInstitutionCnt>1</FinancialInstitutionCnt>
+    <RecordCnt>1</RecordCnt>
+    <DupAccountReportRecordCnt>0</DupAccountReportRecordCnt>
+    <NonDupAccountReportRecordCnt>0</NonDupAccountReportRecordCnt>
+    <PooledReportRecordCnt>1</PooledReportRecordCnt>
+  </OriginalFileProcessingDataGrp>
+  <HCTATreatyStampTxt>This information is furnished under the provisions of an income tax treaty, tax information exchange agreement (TIEA), or other agreement for the exchange of information with a foreign government, and its use and disclosure must be governed by the provisions of that treaty, TIEA, or other agreement.</HCTATreatyStampTxt>
+</ns2:FATCAValidFileNotification>

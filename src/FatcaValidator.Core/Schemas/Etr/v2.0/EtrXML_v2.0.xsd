@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (x64) (http://www.altova.com) by Sebastien Michon (OECD) -->
+<xsd:schema xmlns:etr="urn:oecd:ties:etr:v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:stf="urn:oecd:ties:etrstf:v5" xmlns:iso="urn:oecd:ties:isoetrtypes:v1" targetNamespace="urn:oecd:ties:etr:v2" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0">
+	<xsd:import namespace="urn:oecd:ties:isoetrtypes:v1" schemaLocation="isoetrtypes_v1.1.xsd"/>
+	<xsd:import namespace="urn:oecd:ties:etrstf:v5" schemaLocation="oecdetrtypes_v5.0.xsd"/>
+	<!-- -->
+	<!--+++++++++++++++++++++++  Reusable Simple types ++++++++++++++++++++++++++++++++++++++ -->
+	<!-- Message type definitions -->
+	<xsd:simpleType name="MessageType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Message type defines the type of reporting</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- Message Receiver EC -->
+	<xsd:simpleType name="MessageReceiverType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">If the receiver is the European Commission</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- Country code list -->
+	<xsd:simpleType name="CountryCodeList">
+		<xsd:list itemType="iso:CountryCode_Type"/>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- Business Activities list -->
+	<xsd:simpleType name="BizActivitiesList">
+		<xsd:list itemType="etr:EtrBizActivityType_EnumType"/>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- MessageTypeIndic - 4 -->
+	<xsd:simpleType name="EtrMessageTypeIndic_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The MessageTypeIndic defines the type of message sent</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR401">
+				<xsd:annotation>
+					<xsd:documentation>The message contains new information</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR402">
+				<xsd:annotation>
+					<xsd:documentation>The message contains corrections for previously sent information</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR Main business activities Type - 5 -->
+	<xsd:simpleType name="EtrBizActivityType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Main business activities
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR501">
+				<xsd:annotation>
+					<xsd:documentation>Research and Development</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR502">
+				<xsd:annotation>
+					<xsd:documentation>Holding or Managing intellectual property</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR503">
+				<xsd:annotation>
+					<xsd:documentation>Purchasing or Procurement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR504">
+				<xsd:annotation>
+					<xsd:documentation>Manufacturing or Production</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR505">
+				<xsd:annotation>
+					<xsd:documentation>Sales, Marketing or Distribution</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR506">
+				<xsd:annotation>
+					<xsd:documentation>Administrative, Management or Support Services</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR507">
+				<xsd:annotation>
+					<xsd:documentation>Provision of Services to unrelated parties</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR508">
+				<xsd:annotation>
+					<xsd:documentation>Internal Group Finance</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR509">
+				<xsd:annotation>
+					<xsd:documentation>Regulated Financial Services</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR510">
+				<xsd:annotation>
+					<xsd:documentation>Insurance</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR511">
+				<xsd:annotation>
+					<xsd:documentation>Holding shares or other equity instruments</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR512">
+				<xsd:annotation>
+					<xsd:documentation>Dormant</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR513">
+				<xsd:annotation>
+					<xsd:documentation>E-Commerce</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR514">
+				<xsd:annotation>
+					<xsd:documentation>Other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR Ruling Category - 6 -->
+	<xsd:simpleType name="EtrRulingCategory_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Category of ruling</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR601">
+				<xsd:annotation>
+					<xsd:documentation>Relating to preferential regime</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR602">
+				<xsd:annotation>
+					<xsd:documentation>Unilateral APA or other TP ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR603">
+				<xsd:annotation>
+					<xsd:documentation>Bilateral or multilateral APA</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR604">
+				<xsd:annotation>
+					<xsd:documentation>Exchange of summary information on request for bilateral or multilateral APA</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR605">
+				<xsd:annotation>
+					<xsd:documentation>Downward adjustment ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR606">
+				<xsd:annotation>
+					<xsd:documentation>PE ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR607">
+				<xsd:annotation>
+					<xsd:documentation>Conduit ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR608">
+				<xsd:annotation>
+					<xsd:documentation>Hybrid entity ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR609">
+				<xsd:annotation>
+					<xsd:documentation>Other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR Exchange Reason Type - 7 -->
+	<xsd:simpleType name="EtrExchangeReasonType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Reason for exchange with the recipient jurisdiction</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR701">
+				<xsd:annotation>
+					<xsd:documentation>Ultimate parent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR702">
+				<xsd:annotation>
+					<xsd:documentation>Immediate parent</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR703">
+				<xsd:annotation>
+					<xsd:documentation>Related party with which the taxpayer enters into a transaction for which a preferential treatment is granted or which gives rise to income benefiting from a preferential treatment</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR704">
+				<xsd:annotation>
+					<xsd:documentation>Related party with whom the taxpayer enters into a transaction covered by the ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR705">
+				<xsd:annotation>
+					<xsd:documentation>Related party making payments to a conduit (directly or indirectly)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR706">
+				<xsd:annotation>
+					<xsd:documentation>Ultimate beneficial owner of income from a conduit arrangement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR707">
+				<xsd:annotation>
+					<xsd:documentation>Head office of permanent establishment/PE country</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR708">
+				<xsd:annotation>
+					<xsd:documentation>Exchange with EU Member State under Directive 2011/16/EU</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR Legal Basis Type - 8 -->
+	<xsd:simpleType name="EtrLegalBasisType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Legal basis and related instruments</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR801">
+				<xsd:annotation>
+					<xsd:documentation>Multilateral Convention on Mutual Administrative Assistance in Tax Matters</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR802">
+				<xsd:annotation>
+					<xsd:documentation>EU Council Directive 2011/16/EU</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR803">
+				<xsd:annotation>
+					<xsd:documentation>Double taxation treaty</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR804">
+				<xsd:annotation>
+					<xsd:documentation>Tax information exchange agreement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR805">
+				<xsd:annotation>
+					<xsd:documentation>Nordic Mutual Assistance Convention</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR806">
+				<xsd:annotation>
+					<xsd:documentation>Other legal basis</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR Organisation Name Type - 9 -->
+	<xsd:simpleType name="EtrOrganisationNameType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">ETR Organisation Name Type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR901">
+				<xsd:annotation>
+					<xsd:documentation>Legal</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR902">
+				<xsd:annotation>
+					<xsd:documentation>Trading</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR903">
+				<xsd:annotation>
+					<xsd:documentation>Permanent Establishment</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR904">
+				<xsd:annotation>
+					<xsd:documentation>Other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR ATR or APA type - 10 -->
+	<xsd:simpleType name="EtrATRorAPAType_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">ATR or APA type</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR1001">
+				<xsd:annotation>
+					<xsd:documentation>Advance tax ruling</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1002">
+				<xsd:annotation>
+					<xsd:documentation>Advance pricing arrangement</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1003">
+				<xsd:annotation>
+					<xsd:documentation>Combined ruling and APA</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1004">
+				<xsd:annotation>
+					<xsd:documentation>Not classified</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  -->
+	<!-- ETR APA Method Type - 11 -->
+	<xsd:simpleType name="EtrAPAMethod_EnumType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Transfer pricing method used in APA</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ETR1101">
+				<xsd:annotation>
+					<xsd:documentation>Comparable Uncontrolled Price Method (CUP)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1102">
+				<xsd:annotation>
+					<xsd:documentation>Resale Price Method (RSM)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1103">
+				<xsd:annotation>
+					<xsd:documentation>Cost Plus Method</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1104">
+				<xsd:annotation>
+					<xsd:documentation>Transactional Net Margin Method (TNMM)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1105">
+				<xsd:annotation>
+					<xsd:documentation>Transactional Profit Split Method (PSM)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ETR1106">
+				<xsd:annotation>
+					<xsd:documentation>Other</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- -->
+	<!--++++++++++++++++++ Reusable Complex types +++++++++++++++++++++++++++++++++++++ -->
+	<!-- -->
+	<!-- Organisation name -->
+	<xsd:complexType name="EtrNameOrganisation_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Name of organisation</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="stf:StringMin1Max200_Type">
+				<xsd:attribute name="nameType" type="etr:EtrOrganisationNameType_EnumType" use="optional"/>
+				<xsd:attribute name="language" type="iso:LanguageCode_Type" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Language used</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Address Fix -->
+	<xsd:complexType name="AddressFix_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			Structure of the address for a party broken down into its logical parts, recommended for easy matching. The 'City' element is the only required subelement. All of the subelements are simple text - data type 'string'.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Street" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="BuildingIdentifier" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="SuiteIdentifier" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="FloorIdentifier" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="DistrictName" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="POB" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="PostCode" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="City" type="stf:StringMin1Max200_Type"/>
+			<xsd:element name="CountrySubentity" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  -->
+	<!--  The Address of a Party, given in fixed or free Form, possibly in both Forms -->
+	<xsd:complexType name="Address_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The user has the option to enter the data about the address of a party either as one long field or to spread the data over up to eight  elements or even to use both formats. If the user chooses the option to enter the data required in separate elements, the container element for this will be 'AddressFix'. If the user chooses the option to enter the data required in a less structured way in 'AddressFree' all available address details shall be presented as one string of bytes, blank or "/" (slash) or carriage return- line feed used as a delimiter between parts of the address. PLEASE NOTE that the address country code is outside  both of these elements. The use of the fixed form is recommended as a rule to allow easy matching. However, the use of the free form is recommended if the sending state cannot reliably identify and distinguish the different parts of the address. The user may want to use both formats e.g. if besides separating the logical parts of the address he also wants to indicate a suitable breakdown into print-lines by delimiters in the free text form. In this case 'AddressFix' has to precede 'AddressFree'.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CountryCode" type="iso:CountryCode_Type"/>
+			<xsd:choice>
+				<xsd:element name="AddressFree" type="stf:StringMin1Max4000_Type"/>
+				<xsd:sequence>
+					<xsd:element name="AddressFix" type="etr:AddressFix_Type"/>
+					<xsd:element name="AddressFree" type="stf:StringMin1Max4000_Type" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="legalAddressType" type="stf:OECDLegalAddressType_EnumType" use="optional"/>
+		<xsd:attribute name="language" type="iso:LanguageCode_Type" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">Language used</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<!--  -->
+	<!-- General Type for Monetary Amounts -->
+	<xsd:complexType name="MonAmnt_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+This data type is to be used whenever monetary amounts are to be communicated. Such amounts shall be given
+in full units, i.e. without decimals. The code for the currency in which the value is expressed has to be
+taken from the ISO codelist 4217 and added in attribute currCode.
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:integer">
+				<xsd:attribute name="currCode" type="iso:currCode_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!--  -->
+	<!-- TIN -->
+	<xsd:complexType name="TIN_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This is the identification number/identification code for the party in question. As the identifier may be not strictly numeric, it is just defined as a string of characters. Attribute 'issuedBy' is required to designate the issuer of the identifier. </xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="stf:StringMin1Max200_Type">
+				<xsd:attribute name="issuedBy" type="iso:CountryCode_Type" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Country code of issuing country, indicating country of Residence (to taxes and other)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Message specification: Data identifying and describing the message as a whole -->
+	<xsd:complexType name="MessageSpec_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Information in the message header identifies the Tax Administration that is sending the message.  It specifies when the message was created, what period (normally a year) the report is for, and the nature of the report (original, corrected, supplemental, etc).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TransmittingCountry" type="iso:CountryCode_Type"/>
+			<xsd:element name="ReceivingCountry" type="etr:CountryCodeList"/>
+			<xsd:element name="MessageType" type="etr:MessageType_EnumType"/>
+			<xsd:element name="Language" type="iso:LanguageCode_Type"/>
+			<xsd:element name="Warning" type="stf:StringMin1Max4000_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Free text expressing the restrictions for use of the information this
+message contains and the legal framework under which it is given</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Contact" type="stf:StringMin1Max4000_Type" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">All necessary contact information about persons responsible for and
+involved in the processing of the data transmitted in this message, both legally and technically. Free text as this is not
+intended for automatic processing. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MessageRefId" type="stf:StringMin1Max170_Type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Sender's unique identifier for this message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MessageTypeIndic" type="etr:EtrMessageTypeIndic_EnumType"/>
+			<xsd:element name="CorrMessageRefId" type="stf:StringMin1Max170_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Sender's unique identifier that has to be corrected.  Must point to 1 or more previous message</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Timestamp" type="xsd:dateTime"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Ruling Info Type -->
+	<xsd:complexType name="RulingInfo_Type">
+		<xsd:sequence>
+			<xsd:element name="RulingNumber" type="stf:StringMin1Max200_Type" minOccurs="0"/>
+			<xsd:element name="IssueDate" type="xsd:date"/>
+			<xsd:element name="AmendmentDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="RenewalDate" type="xsd:date" minOccurs="0"/>
+			<xsd:element name="Validity">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StartDate" type="xsd:date" minOccurs="0"/>
+						<xsd:element name="EndDate" type="xsd:date" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ATRorAPA" type="etr:EtrATRorAPAType_EnumType"/>
+			<xsd:element name="RulingType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="RulingCategory" type="etr:EtrRulingCategory_EnumType" maxOccurs="unbounded"/>
+						<xsd:element name="RulingTypeInfo" type="stf:StringMin1Max4000WithLang_Type" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="TransactionAmount" type="etr:MonAmnt_Type" minOccurs="0"/>
+			<xsd:element name="LegalBasisType" type="etr:EtrLegalBasisType_EnumType"/>
+			<xsd:element name="Summary" type="stf:StringMin1Max4000WithLang_Type" maxOccurs="unbounded"/>
+			<xsd:element name="EUInfo" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="EUAPAInfo" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Criteria" type="stf:StringMin1Max4000WithLang_Type" maxOccurs="unbounded"/>
+									<xsd:element name="Method" type="etr:EtrAPAMethod_EnumType" maxOccurs="unbounded"/>
+									<xsd:element name="MethodInfo" type="stf:StringMin1Max4000WithLang_Type" minOccurs="0" maxOccurs="unbounded"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="EURulingNumber" type="stf:StringMin1Max200_Type"/>
+						<xsd:element name="EULinkedCases" type="stf:StringMin1Max200_Type" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="EUMemberStates" type="etr:CountryCodeList" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Correctable Ruling Report -->
+	<xsd:complexType name="CorrectableRulingReport_Type">
+		<xsd:sequence>
+			<xsd:element name="DocSpec" type="stf:DocSpec_Type"/>
+			<xsd:element name="RulingInfo" type="etr:RulingInfo_Type"/>
+			<xsd:element name="ExchangeReason" type="etr:EtrExchangeReasonType_EnumType" maxOccurs="unbounded"/>
+			<xsd:element name="AffectedEntities" type="etr:OrganisationParty_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  -->
+	<!-- Organisation Identification Number -->
+	<xsd:complexType name="OrganisationIN_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">This is the identification number/identification code for the Entity in question. As the identifier may be not strictly numeric, it is just defined as a string of characters. Attribute 'issuedBy' is required to designate the issuer of the identifier.  Attribute 'INType' defines the type of identification number. </xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="stf:StringMin1Max200_Type">
+				<xsd:attribute name="issuedBy" type="iso:CountryCode_Type" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Country code of issuing country, indicating country of Residence (to taxes and other)</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+				<xsd:attribute name="INType" type="stf:StringMin1Max200_Type" use="optional">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Identification Number Type</xsd:documentation>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Collection of all Data describing an organisationy  as party-->
+	<xsd:complexType name="OrganisationParty_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+This container brings together all data about an organisation as a party. Name and address are required components and each can
+be present more than once to enable as complete a description as possible. Whenever possible one or more identifiers (TIN
+etc) should be added as well as a residence country code. Additional data that describes and identifies the party can be
+given . The code for the legal type according to the OECD codelist must be added. The structures of
+all of the subelements are defined elsewhere in this schema.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ResCountryCode" type="iso:CountryCode_Type" maxOccurs="unbounded"/>
+			<xsd:element name="TIN" type="etr:TIN_Type">
+				<xsd:annotation>
+					<xsd:documentation>Tax Identification Number</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="IN" type="etr:OrganisationIN_Type" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Entity Identification Number</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Name" type="etr:EtrNameOrganisation_Type" maxOccurs="unbounded"/>
+			<xsd:element name="Address" type="etr:Address_Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Tax Payer -->
+	<xsd:complexType name="TaxPayer_Type">
+		<xsd:sequence>
+			<xsd:element name="ID" type="etr:OrganisationParty_Type"/>
+			<xsd:element name="BizActivities" type="etr:BizActivitiesList" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Main business activity(ies) </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OtherBizActivityInfo" type="stf:StringMin1Max4000WithLang_Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="GroupName" type="stf:StringMin1Max4000WithLang_Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="TurnOver" type="etr:MonAmnt_Type" minOccurs="0"/>
+			<xsd:element name="ProfitOrLoss" type="etr:MonAmnt_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- -->
+	<!-- Correctable Tax Payer -->
+	<xsd:complexType name="CorrectableTaxPayer_Type">
+		<xsd:complexContent>
+			<xsd:extension base="etr:TaxPayer_Type">
+				<xsd:sequence>
+					<xsd:element name="DocSpec" type="stf:DocSpec_Type"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--  -->
+	<!-- ETR Body Type  -->
+	<xsd:complexType name="EtrBody_Type">
+		<xsd:sequence>
+			<xsd:element name="TaxPayer" type="etr:CorrectableTaxPayer_Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="RulingReports" type="etr:CorrectableRulingReport_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  -->
+	<!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Schema  element ++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ETR OECD File Message structure  -->
+	<!-- -->
+	<!-- ETR Message structure  -->
+	<xsd:element name="ETR_OECD">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MessageSpec" type="etr:MessageSpec_Type"/>
+				<xsd:element name="EtrBody" type="etr:EtrBody_Type" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="stf:StringMin1Max10_Type">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">ETR Version</xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- -->
+</xsd:schema>
